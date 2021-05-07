@@ -1,0 +1,2 @@
+com/stock/spring/domain/company/CompanyInfoTest.java
+ com.stock.spring.domain.company.CompanyInfoTest
