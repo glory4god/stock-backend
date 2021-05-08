@@ -9,8 +9,8 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name = "company_info")
-public class CompanyInfo {
+@Table(name = "company")
+public class Company {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,14 +19,14 @@ public class CompanyInfo {
     @Column(name = "company_id", nullable = false)
     private String companyId;
 
-    @Column(nullable = false)
+    @Column(name = "name",nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(name = "market",nullable = false)
     private String market;
 
     @Builder
-    public CompanyInfo(String companyId, String name, String market) {
+    public Company(String companyId, String name, String market) {
         this.companyId = companyId;
         this.name = name;
         this.market = market;
