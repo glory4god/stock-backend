@@ -1,2 +1,2 @@
-com/stock/spring/domain/company/CompanyInfoTest.java
- com.stock.spring.domain.company.CompanyInfoTest
+com/stock/spring/domain/company/RepositoryTest.java
+ com.stock.spring.domain.company.RepositoryTest
