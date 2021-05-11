@@ -1,7 +1,10 @@
 package com.stock.spring.service.get;
 
 import com.stock.spring.domain.company.CompanyRepository;
+import com.stock.spring.domain.data.Data;
+import com.stock.spring.domain.data.DataRepository;
 import com.stock.spring.web.dto.GetCompanyResponseDto;
+import com.stock.spring.web.dto.GetDateResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +16,7 @@ import java.util.stream.Collectors;
 @Service
 public class GetService {
     private final CompanyRepository companyRepository;
+    private final DataRepository dataRepository;
 
     @Transactional(readOnly = true)
     public List<GetCompanyResponseDto> findByMarket(String market) {
@@ -21,6 +25,11 @@ public class GetService {
                 .collect(Collectors.toList());
 
     }
-
+    @Transactional(readOnly = true)
+    public List<GetDateResponseDto> dataListByDate(String date) {
+        return dataRepository.dataListByDate(date).stream()
+                .map(GetDateResponseDto::new)
+                .collect(Collectors.toList());
+    }
 
 }
