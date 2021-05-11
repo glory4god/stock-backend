@@ -27,10 +27,10 @@ public class RepositoryTest {
         companyRepository.deleteAll();
     }
 
-    @After
-    public void dataCleanUp() {
-        dataRepository.deleteAll();
-    }
+//    @After
+//    public void dataCleanUp() {
+//        dataRepository.deleteAll();
+//    }
     @Test
     public void 디비컴패니테이블생성테스트() {
         //given
