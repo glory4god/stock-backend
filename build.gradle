@@ -36,6 +36,7 @@ dependencies {
     compile('org.springframework.session:spring-session-jdbc')
     compile("org.mariadb.jdbc:mariadb-java-client:2.4.1")
     annotationProcessor('org.projectlombok:lombok')
+
     testAnnotationProcessor('org.projectlombok:lombok')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
