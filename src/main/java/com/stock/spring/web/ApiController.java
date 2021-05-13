@@ -2,6 +2,7 @@ package com.stock.spring.web;
 
 import com.stock.spring.service.get.GetService;
 import com.stock.spring.web.dto.GetCompanyResponseDto;
+import com.stock.spring.web.dto.GetDateResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,8 @@ public class ApiController {
         return getService.findByMarket(market);
     }
 
-
-
+    @GetMapping("api/get/data/{date}")
+    public List<GetDateResponseDto> dataListByDate(@PathVariable String date) {
+        return getService.dataListByDate(date);
+    }
 }
