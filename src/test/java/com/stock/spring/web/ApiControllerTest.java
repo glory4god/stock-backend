@@ -1,54 +1,40 @@
 package com.stock.spring.web;
 
-<<<<<<< HEAD
-import org.junit.runner.RunWith;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-@AutoConfigureMockMvc
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class ApiControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
-    @Autowired
-    ApiController apiController;
-=======
 import com.stock.spring.domain.company.Company;
 import com.stock.spring.domain.company.CompanyRepository;
-import com.stock.spring.domain.data.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.runner.RunWith;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
+
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@AutoConfigureMockMvc
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ApiControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    ApiController apiController;
 
     @LocalServerPort
     private int port;
@@ -60,15 +46,9 @@ public class ApiControllerTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
->>>>>>> d7045cf6782978d53f8a3319d2da835152fc69f7
-
 
     @Test
-<<<<<<< HEAD
     public void dataTable조회테스트() throws Exception{
-=======
-    public void dataTable조회테스트() {
->>>>>>> d7045cf6782978d53f8a3319d2da835152fc69f7
         //given
         String startDate = "2021-05-06";
         String endDate = "2021-05-07";
