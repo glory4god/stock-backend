@@ -6,6 +6,7 @@ import com.stock.spring.web.dto.GetDateResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -13,7 +14,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 public class ApiController {
-
     private final GetService getService;
 
     @GetMapping("api/get/company/{market}")
@@ -21,8 +21,9 @@ public class ApiController {
         return getService.findByMarket(market);
     }
 
-    @GetMapping("api/get/data/{date}")
-    public List<GetDateResponseDto> dataListByDate(@PathVariable String date) {
-        return getService.dataListByDate(date);
+    @GetMapping("api/get/data")
+    public List<GetDateResponseDto> dataListByDate(@RequestParam(value = "start") String startDate, @RequestParam(value = "end") String endDate) {
+        System.out.println(startDate + " " + endDate);
+        return getService.dataListByDate(startDate, endDate);
     }
 }

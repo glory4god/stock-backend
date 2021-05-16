@@ -6,6 +6,7 @@ import com.stock.spring.domain.data.DataRepository;
 import com.stock.spring.web.dto.GetCompanyResponseDto;
 import com.stock.spring.web.dto.GetDateResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class GetService {
+
     private final CompanyRepository companyRepository;
     private final DataRepository dataRepository;
 
@@ -25,9 +27,10 @@ public class GetService {
                 .collect(Collectors.toList());
 
     }
+
     @Transactional(readOnly = true)
-    public List<GetDateResponseDto> dataListByDate(String date) {
-        return dataRepository.dataListByDate(date).stream()
+    public List<GetDateResponseDto> dataListByDate(String startDate, String endDate) {
+        return dataRepository.dataListByDate(startDate, endDate).stream()
                 .map(GetDateResponseDto::new)
                 .collect(Collectors.toList());
     }
