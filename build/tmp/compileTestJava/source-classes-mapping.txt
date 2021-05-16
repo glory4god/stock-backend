@@ -1,4 +1,0 @@
-com/stock/spring/domain/company/RepositoryTest.java
- com.stock.spring.domain.company.RepositoryTest
-com/stock/spring/web/ApiControllerTest.java
- com.stock.spring.web.ApiControllerTest
