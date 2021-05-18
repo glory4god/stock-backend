@@ -1,6 +1,6 @@
 package com.stock.spring.web;
 
-import com.stock.spring.service.get.GetService;
+import com.stock.spring.service.GetService;
 import com.stock.spring.web.dto.GetCompanyNameResponseDto;
 import com.stock.spring.web.dto.GetCompanyResponseDto;
 import com.stock.spring.web.dto.GetDateResponseDto;
