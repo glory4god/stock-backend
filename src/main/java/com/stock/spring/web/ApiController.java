@@ -3,6 +3,7 @@ package com.stock.spring.web;
 import com.stock.spring.service.GetService;
 import com.stock.spring.web.dto.GetCompanyNameResponseDto;
 import com.stock.spring.web.dto.GetCompanyResponseDto;
+import com.stock.spring.web.dto.GetDateRangeResponseDto;
 import com.stock.spring.web.dto.GetDateResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,18 +18,26 @@ import java.util.List;
 public class ApiController {
     private final GetService getService;
 
-    @GetMapping("api/get/companyname/{market}")
+    @GetMapping("/api/stock/companyname/{market}")
     public List<GetCompanyNameResponseDto> CompanyNameListByMarket(@PathVariable String market) {
         return getService.CompanyNameListByMarket(market);
     }
-    @GetMapping("api/get/company/{market}")
+
+    @GetMapping("/api/stock/company/{market}")
     public List<GetCompanyResponseDto> CompanyListByMarket(@PathVariable String market) {
         return getService.CompanyListByMarket(market);
     }
 
-    @GetMapping("api/get/data")
+    @GetMapping("/api/stock/data")
     public List<GetDateResponseDto> dataListByDate(@RequestParam(value = "start") String startDate, @RequestParam(value = "end") String endDate) {
         System.out.println(startDate + " " + endDate);
         return getService.dataListByDate(startDate, endDate);
     }
+
+    @GetMapping("/api/stock/data/{companyName}")
+    public List<GetDateRangeResponseDto> dateRangeByCompany(@PathVariable String companyName) {
+        return getService.dateRangeByCompany(companyName);
+    }
+
+
 }
