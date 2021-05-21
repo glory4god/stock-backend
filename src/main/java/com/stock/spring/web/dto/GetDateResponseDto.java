@@ -9,11 +9,13 @@ public class GetDateResponseDto {
     private int close;
     private int high;
     private int low;
+    private String companyName;
 
     public GetDateResponseDto(Data entity) {
         this.date = entity.getDate();
         this.close = entity.getClose();
         this.high = entity.getHigh();
         this.low = entity.getLow();
+        this.companyName = entity.getCompanyName();
     }
 }
