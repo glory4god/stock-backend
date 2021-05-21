@@ -12,8 +12,10 @@ import javax.persistence.*;
 @Table(name = "data")
 public class Data {
 
-
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
     @Column(name = "date", nullable = false)
     private String date;
 
@@ -29,12 +31,16 @@ public class Data {
     @Column(name = "close", nullable = false)
     private int close;
 
+    @Column(name = "company_name", nullable = false)
+    private String companyName;
+
     @Builder
-    public Data(String date, int high, int low, int open, int close) {
+    public Data(String date, int high, int low, int open, int close, String companyName) {
         this.date = date;
         this.high = high;
         this.low = low;
         this.open = open;
         this.close = close;
+        this.companyName = companyName;
     }
 }
