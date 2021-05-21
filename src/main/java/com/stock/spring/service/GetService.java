@@ -1,17 +1,16 @@
 package com.stock.spring.service;
 
 import com.stock.spring.domain.company.CompanyRepository;
+import com.stock.spring.domain.data.Data;
 import com.stock.spring.domain.data.DataRepository;
 import com.stock.spring.domain.user.Report;
 import com.stock.spring.domain.user.ReportRepository;
-import com.stock.spring.web.dto.GetCompanyNameResponseDto;
-import com.stock.spring.web.dto.GetCompanyResponseDto;
-import com.stock.spring.web.dto.GetDateResponseDto;
-import com.stock.spring.web.dto.PostReportResponseDto;
+import com.stock.spring.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,4 +50,15 @@ public class GetService {
         return new PostReportResponseDto(entity);
     }
 
+    @Transactional(readOnly = true)
+    public List<GetDateRangeResponseDto> dateRangeByCompany(String companyName) {
+        Data start = dataRepository.dateStartByCompany(companyName);
+        Data end = dataRepository.dateEndByCompany(companyName);
+
+        List<GetDateRangeResponseDto> range = new ArrayList<>();
+        range.add(new GetDateRangeResponseDto(start));
+        range.add(new GetDateRangeResponseDto(end));
+
+        return range;
+    }
 }
