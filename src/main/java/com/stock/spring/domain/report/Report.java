@@ -1,4 +1,4 @@
-package com.stock.spring.domain.user;
+package com.stock.spring.domain.report;
 
 import lombok.Builder;
 import lombok.Getter;

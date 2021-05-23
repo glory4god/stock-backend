@@ -1,6 +1,6 @@
 package com.stock.spring.web.dto;
 
-import com.stock.spring.domain.user.Report;
+import com.stock.spring.domain.report.Report;
 import lombok.Getter;
 
 @Getter

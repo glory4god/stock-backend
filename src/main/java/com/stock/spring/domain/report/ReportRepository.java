@@ -1,4 +1,4 @@
-package com.stock.spring.domain.user;
+package com.stock.spring.domain.report;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
