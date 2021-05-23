@@ -54,7 +54,7 @@ public class ApiControllerTest {
         String endDate = "2021-05-07";
         MultiValueMap<String, String> info = new LinkedMultiValueMap<>();
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/get/data")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/stock/data")
                 .param("start", startDate)
                 .param("end", endDate))
                 .andDo(print())
@@ -63,7 +63,7 @@ public class ApiControllerTest {
     }
 
     @Test
-    public void testFindByMarket() throws Exception {
+    public void CompanyNameListByMarket() throws Exception {
         //given
         Company company1 = companyRepository.save(Company.builder()
                 .companyId("1")
@@ -76,8 +76,8 @@ public class ApiControllerTest {
                 .name("kakaogames")
                 .build());
 
-        String url1 = "http://localhost:" + port + "/api/get/company/kospi";
-        String url2 = "http://localhost:" + port + "/api/get/company/kosdaq";
+        String url1 = "http://localhost:" + port + "/api/stock/companyname/kospi";
+        String url2 = "http://localhost:" + port + "/api/stock/companyname/kosdaq";
 
         //when
         ResponseEntity<String> response1 = restTemplate.getForEntity(url1, String.class);
@@ -88,5 +88,4 @@ public class ApiControllerTest {
         log.info(response1.toString());
         log.info(response2.toString());
     }
-
 }
