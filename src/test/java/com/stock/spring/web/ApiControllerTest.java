@@ -54,7 +54,7 @@ public class ApiControllerTest {
         String endDate = "2021-05-07";
         MultiValueMap<String, String> info = new LinkedMultiValueMap<>();
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/stock/data")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/stock/data/condition/3/")
                 .param("start", startDate)
                 .param("end", endDate))
                 .andDo(print())
