@@ -1,6 +1,6 @@
 package com.stock.spring.web.dto;
 
-import com.stock.spring.domain.report.Report;
+import com.stock.spring.domain.user.Report;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
