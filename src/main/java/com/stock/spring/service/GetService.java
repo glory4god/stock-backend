@@ -3,8 +3,8 @@ package com.stock.spring.service;
 import com.stock.spring.domain.company.CompanyRepository;
 import com.stock.spring.domain.data.Data;
 import com.stock.spring.domain.data.DataRepository;
-import com.stock.spring.domain.report.Report;
-import com.stock.spring.domain.report.ReportRepository;
+import com.stock.spring.domain.user.Report;
+import com.stock.spring.domain.user.ReportRepository;
 import com.stock.spring.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -37,8 +37,8 @@ public class GetService {
     }
 
     @Transactional(readOnly = true)
-    public List<GetDateResponseDto> dataListByDate(String startDate, String endDate) {
-        return dataRepository.dataListByDate(startDate, endDate).stream()
+    public List<GetDateResponseDto> dataListByDate(String companyName ,String startDate, String endDate) {
+        return dataRepository.dataListByDate(companyName, startDate, endDate).stream()
                 .map(GetDateResponseDto::new)
                 .collect(Collectors.toList());
     }

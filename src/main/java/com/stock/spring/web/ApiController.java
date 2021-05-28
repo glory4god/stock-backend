@@ -28,16 +28,14 @@ public class ApiController {
         return getService.CompanyListByMarket(market);
     }
 
-    @GetMapping("/api/stock/data")
-    public List<GetDateResponseDto> dataListByDate(@RequestParam(value = "start") String startDate, @RequestParam(value = "end") String endDate) {
+    @GetMapping("/api/stock/data/condition/{companyName}/")
+    public List<GetDateResponseDto> dataListByDate(@PathVariable String companyName, @RequestParam(value = "start") String startDate, @RequestParam(value = "end") String endDate) {
         System.out.println(startDate + " " + endDate);
-        return getService.dataListByDate(startDate, endDate);
+        return getService.dataListByDate(companyName,startDate, endDate);
     }
 
     @GetMapping("/api/stock/data/{companyName}")
     public List<GetDateRangeResponseDto> dateRangeByCompany(@PathVariable String companyName) {
         return getService.dateRangeByCompany(companyName);
     }
-
-
 }
