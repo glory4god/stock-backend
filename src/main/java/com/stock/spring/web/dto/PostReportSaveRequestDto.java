@@ -10,21 +10,24 @@ import lombok.NoArgsConstructor;
 public class PostReportSaveRequestDto {
 
     private String userId;
+    private String password;
     private String companyName;
     private String startDate;
     private String endDate;
 
     @Builder
-    public PostReportSaveRequestDto(Report entity) {
-        this.userId = entity.getUserId();
-        this.companyName = entity.getCompanyName();
-        this.startDate = entity.getStartDate();
-        this.endDate = entity.getEndDate();
+    public PostReportSaveRequestDto(String userId, String password, String companyName, String startDate, String endDate) {
+        this.userId = userId;
+        this.password = password;
+        this.companyName = companyName;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     public Report toEntity() {
         return Report.builder()
                 .userId(userId)
+                .password(password)
                 .companyName(companyName)
                 .startDate(startDate)
                 .endDate(endDate)

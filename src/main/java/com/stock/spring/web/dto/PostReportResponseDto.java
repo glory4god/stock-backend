@@ -8,6 +8,7 @@ public class PostReportResponseDto {
 
     private Long id;
     private String userId;
+    private String password;
     private String companyName;
     private String startDate;
     private String endDate;
@@ -15,6 +16,7 @@ public class PostReportResponseDto {
     public PostReportResponseDto(Report entity) {
         this.id = entity.getId();
         this.userId = entity.getUserId();
+        this.password = entity.getPassword();
         this.companyName = entity.getCompanyName();
         this.startDate = entity.getStartDate();
         this.endDate = entity.getEndDate();
