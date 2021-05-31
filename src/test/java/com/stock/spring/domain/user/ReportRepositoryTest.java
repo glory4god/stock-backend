@@ -31,10 +31,12 @@ public class ReportRepositoryTest  {
         String companyName = "삼성전자";
         String startDate = "2021-05-06";
         String endDate = "2021-05-28";
+        String password = "123123";
 
         reportRepository.save(Report.builder()
                 .userId(userId)
                 .companyName(companyName)
+                .password(password)
                 .startDate(startDate)
                 .endDate(endDate)
                 .build());
@@ -55,6 +57,7 @@ public class ReportRepositoryTest  {
         reportRepository.save(Report.builder()
                 .userId("유하영")
                 .companyName("삼성전자")
+                .password("123123")
                 .startDate("2021-05-06")
                 .endDate("2021-05-28")
                 .build());
