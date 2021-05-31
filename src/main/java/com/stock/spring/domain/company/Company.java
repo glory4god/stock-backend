@@ -13,9 +13,6 @@ import javax.persistence.*;
 public class Company {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @Column(name = "company_id", nullable = false)
     private String companyId;
 

@@ -1,22 +1,21 @@
 package com.stock.spring.web;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stock.spring.domain.user.ReportRepository;
 import com.stock.spring.web.dto.PostReportSaveRequestDto;
 import junit.framework.TestCase;
+import org.assertj.core.api.Assertions;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @AutoConfigureMockMvc
@@ -29,6 +28,9 @@ public class PostApiControllerTest extends TestCase {
 
     @Autowired
     PostApiController postApiController;
+
+    @Autowired
+    private TestRestTemplate restTemplate;
 
     @Autowired
     private MockMvc mockMvc;
@@ -54,15 +56,12 @@ public class PostApiControllerTest extends TestCase {
 
         String url = "http://localhost:" + port + "/api/stock/report/post";
 
-
-        mockMvc.perform(MockMvcRequestBuilders.post(url)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(new ObjectMapper().writeValueAsString(requestDto)))
-                .andExpect(status().isOk())
-        ;
+        //when
+        ResponseEntity<Long> responseEntity = restTemplate.postForEntity(url, requestDto, Long.class);
 
 
-
+        //then
+        Assertions.assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
     @Test

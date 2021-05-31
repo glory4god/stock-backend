@@ -43,7 +43,6 @@ public class GetService {
                 .collect(Collectors.toList());
     }
 
-
     @Transactional(readOnly = true)
     public List<GetDateRangeResponseDto> dateRangeByCompany(String companyName) {
         Data start = dataRepository.dateStartByCompany(companyName);
@@ -55,4 +54,5 @@ public class GetService {
 
         return range;
     }
+
 }

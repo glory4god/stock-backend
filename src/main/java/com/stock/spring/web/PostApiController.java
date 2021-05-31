@@ -27,6 +27,5 @@ public class PostApiController {
     @DeleteMapping("/api/stock/report/post/{reportId}")
     public Long deleteReport(@PathVariable Long reportId, @RequestBody DeleteReportRequestDto requestDto) {
         return postService.deleteReport(reportId, requestDto);
-
     }
 }

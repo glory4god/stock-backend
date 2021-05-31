@@ -37,7 +37,6 @@ public class PostService {
         } else{
             throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
         }
-
         return id;
     }
 }
