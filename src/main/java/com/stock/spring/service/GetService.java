@@ -38,9 +38,10 @@ public class GetService {
 
     @Transactional(readOnly = true)
     public List<GetDateResponseDto> dataListByDate(String companyName ,String startDate, String endDate) {
-        return dataRepository.dataListByDate(companyName, startDate, endDate).stream()
+        List<GetDateResponseDto> list =  dataRepository.dataListByDate(companyName, startDate, endDate).stream()
                 .map(GetDateResponseDto::new)
                 .collect(Collectors.toList());
+        return list;
     }
 
     @Transactional(readOnly = true)
