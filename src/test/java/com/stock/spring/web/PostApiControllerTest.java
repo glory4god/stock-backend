@@ -55,10 +55,8 @@ public class PostApiControllerTest extends TestCase {
                 .build();
 
         String url = "http://localhost:" + port + "/api/stock/report/post";
-
         //when
         ResponseEntity<Long> responseEntity = restTemplate.postForEntity(url, requestDto, Long.class);
-
 
         //then
         Assertions.assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
