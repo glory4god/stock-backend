@@ -3,10 +3,7 @@ package com.stock.spring.service;
 import com.stock.spring.domain.company.CompanyRepository;
 import com.stock.spring.domain.data.Data;
 import com.stock.spring.domain.data.DataRepository;
-import com.stock.spring.web.dto.GetCompanyNameResponseDto;
-import com.stock.spring.web.dto.GetCompanyResponseDto;
-import com.stock.spring.web.dto.GetDateRangeResponseDto;
-import com.stock.spring.web.dto.GetDateResponseDto;
+import com.stock.spring.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,16 +20,17 @@ public class GetService {
     private final DataRepository dataRepository;
 
     @Transactional(readOnly = true)
-    public List<GetCompanyNameResponseDto> CompanyNameListByMarket(String market) {
-        return companyRepository.findByMarket(market).stream()
-                .map(GetCompanyNameResponseDto::new)
+    public List<String> CompanyNameListByMarket(String market) {
+        List<String> collect = companyRepository.findByMarket(market).stream()
+                .map((c)-> c.getName())
                 .collect(Collectors.toList());
+        return collect;
     }
 
     @Transactional(readOnly = true)
-    public List<GetCompanyResponseDto> CompanyListByMarket(String market) {
+    public List<GetCompanyNameResponseDto> CompanyListByMarket(String market) {
         return companyRepository.findByMarket(market).stream()
-                .map(GetCompanyResponseDto::new)
+                .map(GetCompanyNameResponseDto::new)
                 .collect(Collectors.toList());
     }
 
@@ -55,5 +53,4 @@ public class GetService {
 
         return range;
     }
-
 }
