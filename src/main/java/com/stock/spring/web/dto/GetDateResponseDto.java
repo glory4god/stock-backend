@@ -7,17 +7,19 @@ import lombok.Getter;
 public class GetDateResponseDto {
     private String date;
     private int open;
-    private int close;
     private int high;
     private int low;
+    private int close;
+    private int volume;
     private String companyName;
 
     public GetDateResponseDto(Data entity) {
         this.date = entity.getDate();
         this.open = entity.getOpen();
-        this.close = entity.getClose();
         this.high = entity.getHigh();
         this.low = entity.getLow();
+        this.close = entity.getClose();
+        this.volume = entity.getVolume();
         this.companyName = entity.getCompanyName();
     }
 }
