@@ -10,8 +10,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Entity
-@Table(name = "news_record")
-public class NewsRecord extends BaseTimeEntity {
+@Table(name = "news_keyword_record")
+public class NewsKeywordRecord extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +21,7 @@ public class NewsRecord extends BaseTimeEntity {
     private String keyword;
 
     @Builder
-    public NewsRecord(String keyword) {
+    public NewsKeywordRecord(String keyword) {
         this.keyword = keyword;
     }
 }
