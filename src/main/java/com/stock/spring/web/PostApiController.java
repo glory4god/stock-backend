@@ -2,6 +2,7 @@ package com.stock.spring.web;
 
 import com.stock.spring.service.PostService;
 import com.stock.spring.web.dto.DeleteReportRequestDto;
+import com.stock.spring.web.dto.NewsUrlRecordRequestDto;
 import com.stock.spring.web.dto.PostReportResponseDto;
 import com.stock.spring.web.dto.PostReportSaveRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -27,5 +28,10 @@ public class PostApiController {
     @DeleteMapping("/api/stock/report/post/{reportId}")
     public Long deleteReport(@PathVariable Long reportId, @RequestBody DeleteReportRequestDto requestDto) {
         return postService.deleteReport(reportId, requestDto);
+    }
+
+    @PostMapping("/api/finance/url/post")
+    public Long saveNewsUrl(@RequestBody NewsUrlRecordRequestDto requestDto) {
+        return postService.saveNewsUrl(requestDto);
     }
 }
