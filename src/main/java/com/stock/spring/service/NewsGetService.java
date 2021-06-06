@@ -1,7 +1,7 @@
 package com.stock.spring.service;
 
-import com.stock.spring.domain.data.NewsRecordRepository;
-import com.stock.spring.web.dto.NewsRecordRequestDto;
+import com.stock.spring.domain.data.NewsKeywordRecordRepository;
+import com.stock.spring.web.dto.NewsKeywordRecordRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,14 +19,14 @@ import java.util.Map;
 @Service
 public class NewsGetService {
 
-    private final NewsRecordRepository newsRecordRepository;
+    private final NewsKeywordRecordRepository newsKeywordRecordRepository;
 
-    public Object getNews(String keyword) {
+    public Object getNews(String keyword, String sort) {
         String clientId = "VgK9ERVBz6_4f9p3RDzo";//애플리케이션 클라이언트 아이디값";
         String clientSecret = "IALrdMLh3d";//애플리케이션 클라이언트 시크릿값";
         try {
             String text = URLEncoder.encode(keyword, "UTF-8");
-            String apiURL = "https://openapi.naver.com/v1/search/news.json?query="+text+"&display=18&sort=sim";
+            String apiURL = "https://openapi.naver.com/v1/search/news.json?query="+text+"&display=25&sort="+sort;
             URL url = new URL(apiURL);
             HttpURLConnection con = (HttpURLConnection)url.openConnection();
             con.setRequestMethod("GET");
@@ -48,8 +48,8 @@ public class NewsGetService {
             br.close();
             System.out.println(response.toString());
 
-            NewsRecordRequestDto requestDto = new NewsRecordRequestDto(keyword);
-            newsRecordRepository.save(requestDto.toEntity());
+            NewsKeywordRecordRequestDto requestDto = new NewsKeywordRecordRequestDto(keyword);
+            newsKeywordRecordRepository.save(requestDto.toEntity());
 
             return response.toString();
         } catch (Exception e) {
@@ -57,6 +57,7 @@ public class NewsGetService {
             return null;
         }
     }
+
 
     public void getKeywords(String keyword) {
         String clientId = "VgK9ERVBz6_4f9p3RDzo";//애플리케이션 클라이언트 아이디값";

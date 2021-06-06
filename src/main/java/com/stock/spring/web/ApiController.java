@@ -36,7 +36,7 @@ public class ApiController {
     }
 
     @GetMapping("/api/finance/news/{keyword}")
-    public Object getNews(@PathVariable String keyword) {
-        return newsGetService.getNews(keyword);
+    public Object getNews(@PathVariable String keyword, @RequestParam(value = "sort") String sort ) {
+        return newsGetService.getNews(keyword, sort);
     }
 }
