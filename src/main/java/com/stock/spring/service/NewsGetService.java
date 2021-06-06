@@ -1,5 +1,7 @@
 package com.stock.spring.service;
 
+import com.stock.spring.domain.data.NewsRecordRepository;
+import com.stock.spring.web.dto.NewsRecordRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +17,9 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
-public class NewsApiGetService {
+public class NewsGetService {
+
+    private final NewsRecordRepository newsRecordRepository;
 
     public Object getNews(String keyword) {
         String clientId = "VgK9ERVBz6_4f9p3RDzo";//애플리케이션 클라이언트 아이디값";
@@ -43,6 +47,10 @@ public class NewsApiGetService {
             }
             br.close();
             System.out.println(response.toString());
+
+            NewsRecordRequestDto requestDto = new NewsRecordRequestDto(keyword);
+            newsRecordRepository.save(requestDto.toEntity());
+
             return response.toString();
         } catch (Exception e) {
             System.out.println(e);
