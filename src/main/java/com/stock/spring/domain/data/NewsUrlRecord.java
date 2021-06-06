@@ -21,7 +21,7 @@ public class NewsUrlRecord extends BaseTimeEntity {
     private String url;
 
     @Builder
-    public NewsUrlRecord(String url) {
+    public NewsUrlRecord(String url ) {
         this.url = url;
     }
 
