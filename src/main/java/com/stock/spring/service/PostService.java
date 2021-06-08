@@ -5,7 +5,6 @@ import com.stock.spring.domain.data.NewsUrlRecordRepository;
 import com.stock.spring.domain.user.Report;
 import com.stock.spring.domain.user.ReportRepository;
 import com.stock.spring.web.dto.DeleteReportRequestDto;
-import com.stock.spring.web.dto.NewsUrlRecordRequestDto;
 import com.stock.spring.web.dto.PostReportResponseDto;
 import com.stock.spring.web.dto.PostReportSaveRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -43,9 +42,6 @@ public class PostService {
         return id;
     }
 
-    @Transactional
-    public Long saveNewsUrl(NewsUrlRecordRequestDto requestDto) {
-        return newsUrlRecordRepository.save(requestDto.toEntity()).getId();
-    }
+
 
 }
