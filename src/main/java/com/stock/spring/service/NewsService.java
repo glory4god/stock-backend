@@ -1,9 +1,13 @@
 package com.stock.spring.service;
 
 import com.stock.spring.domain.data.NewsKeywordRecordRepository;
-import com.stock.spring.web.dto.NewsKeywordRecordRequestDto;
+import com.stock.spring.domain.data.NewsUrlRecordRepository;
+import com.stock.spring.web.newsdto.NewsKeywordRecordRequestDto;
+import com.stock.spring.web.newsdto.NewsUrlRecordRequestDto;
+import com.stock.spring.web.newsdto.NewsUrlRecordResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -12,14 +16,17 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
 @Service
-public class NewsGetService {
+public class NewsService {
 
     private final NewsKeywordRecordRepository newsKeywordRecordRepository;
+    private final NewsUrlRecordRepository newsUrlRecordRepository;
 
     public Object getNews(String keyword, String sort) {
         String clientId = "VgK9ERVBz6_4f9p3RDzo";//애플리케이션 클라이언트 아이디값";
@@ -58,8 +65,28 @@ public class NewsGetService {
         }
     }
 
+    @Transactional
+    public Long saveNewsUrl(NewsUrlRecordRequestDto requestDto) {
+        return newsUrlRecordRepository.save(requestDto.toEntity()).getId();
+    }
+
+    @Transactional(readOnly = true)
+    public List<String> getPopularKeyword() {
+        return newsKeywordRecordRepository.getPopularKeyword().stream()
+                .map((c)->c.getKeyword())
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<NewsUrlRecordResponseDto> getPopularUrl() {
+        return newsUrlRecordRepository.getPopularNews().stream()
+                .map(NewsUrlRecordResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
 
     public void getKeywords(String keyword) {
+
         String clientId = "VgK9ERVBz6_4f9p3RDzo";//애플리케이션 클라이언트 아이디값";
         String clientSecret = "IALrdMLh3d";//애플리케이션 클라이언트 시크릿값";
         String startDate = "2021-05-28";
