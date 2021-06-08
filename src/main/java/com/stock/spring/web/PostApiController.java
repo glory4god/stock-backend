@@ -1,8 +1,8 @@
 package com.stock.spring.web;
 
+import com.stock.spring.service.NewsService;
 import com.stock.spring.service.PostService;
 import com.stock.spring.web.dto.DeleteReportRequestDto;
-import com.stock.spring.web.dto.NewsUrlRecordRequestDto;
 import com.stock.spring.web.dto.PostReportResponseDto;
 import com.stock.spring.web.dto.PostReportSaveRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class PostApiController {
 
     private final PostService postService;
+    private final NewsService newsService;
 
     @PostMapping("/api/stock/report/post")
     public PostReportResponseDto saveReport(@RequestBody PostReportSaveRequestDto requestDto) {
@@ -30,8 +31,5 @@ public class PostApiController {
         return postService.deleteReport(reportId, requestDto);
     }
 
-    @PostMapping("/api/finance/url/post")
-    public Long saveNewsUrl(@RequestBody NewsUrlRecordRequestDto requestDto) {
-        return postService.saveNewsUrl(requestDto);
-    }
+
 }
