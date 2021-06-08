@@ -17,12 +17,30 @@ public class NewsUrlRecord extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "url", nullable = false)
-    private String url;
+    @Column(name = "title", nullable = false)
+    private String title;
+
+    @Column(name = "link", nullable = false)
+    private String link;
+
+    @Column(name = "originallink", nullable = false)
+    private String originallink;
+
+    @Column(name = "pubDate", nullable = false)
+    private String pubDate;
+
+    @Column(name = "description", nullable = false)
+    private String description;
 
     @Builder
-    public NewsUrlRecord(String url ) {
-        this.url = url;
+    public NewsUrlRecord(String title, String link, String originallink, String pubDate, String description
+    ) {
+
+        this.title = title;
+        this.link = link;
+        this.originallink = originallink;
+        this.description = description;
+        this.pubDate = pubDate;
     }
 
 }
