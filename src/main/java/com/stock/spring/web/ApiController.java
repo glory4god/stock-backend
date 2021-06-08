@@ -1,10 +1,14 @@
 package com.stock.spring.web;
 
 import com.stock.spring.service.GetService;
-import com.stock.spring.service.NewsGetService;
-import com.stock.spring.web.dto.*;
+import com.stock.spring.web.dto.GetCompanyNameResponseDto;
+import com.stock.spring.web.dto.GetDateRangeResponseDto;
+import com.stock.spring.web.dto.GetDateResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -12,7 +16,6 @@ import java.util.List;
 @RestController
 public class ApiController {
     private final GetService getService;
-    private final NewsGetService newsGetService;
 
     @GetMapping("/api/stock/companyname/{market}")
     public List<String> CompanyNameListByMarket(@PathVariable String market) {
@@ -35,8 +38,4 @@ public class ApiController {
         return getService.dateRangeByCompany(companyName);
     }
 
-    @GetMapping("/api/finance/news/{keyword}")
-    public Object getNews(@PathVariable String keyword, @RequestParam(value = "sort") String sort ) {
-        return newsGetService.getNews(keyword, sort);
-    }
 }
