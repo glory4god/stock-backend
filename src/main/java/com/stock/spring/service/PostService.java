@@ -2,8 +2,10 @@ package com.stock.spring.service;
 
 
 import com.stock.spring.domain.data.NewsUrlRecordRepository;
+import com.stock.spring.domain.user.ChartSearchRecordRepository;
 import com.stock.spring.domain.user.Report;
 import com.stock.spring.domain.user.ReportRepository;
+import com.stock.spring.web.dto.ChartRecordRequestDto;
 import com.stock.spring.web.dto.DeleteReportRequestDto;
 import com.stock.spring.web.dto.PostReportResponseDto;
 import com.stock.spring.web.dto.PostReportSaveRequestDto;
@@ -17,6 +19,7 @@ public class PostService {
 
     private final ReportRepository reportRepository;
     private final NewsUrlRecordRepository newsUrlRecordRepository;
+    private final ChartSearchRecordRepository chartSearchRecordRepository;
 
     @Transactional
     public Long saveReport(PostReportSaveRequestDto requestDto) {
@@ -42,6 +45,10 @@ public class PostService {
         return id;
     }
 
+    @Transactional
+    public Long saveSearchRecord(ChartRecordRequestDto requestDto) {
+        return chartSearchRecordRepository.save(requestDto.toEntity()).getId();
+    }
 
 
 }
