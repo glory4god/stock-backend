@@ -1,6 +1,6 @@
 package com.stock.spring.domain.data;
 
-import com.stock.spring.domain.BaseTimeEntity;
+import com.stock.spring.domain.BaseTimeCreateTImeEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Getter
 @Entity
 @Table(name = "news_url_record")
-public class NewsUrlRecord extends BaseTimeEntity {
+public class NewsUrlRecord extends BaseTimeCreateTImeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
