@@ -1,4 +1,4 @@
-package com.stock.spring.web;
+package com.stock.spring.web.controller;
 
 import com.stock.spring.service.UserService;
 import com.stock.spring.web.dto.UserInfoDto;

@@ -1,8 +1,8 @@
-package com.stock.spring.web;
+package com.stock.spring.web.controller;
 
 import com.stock.spring.service.NewsService;
-import com.stock.spring.web.newsdto.NewsUrlRecordRequestDto;
-import com.stock.spring.web.newsdto.NewsUrlRecordResponseDto;
+import com.stock.spring.web.dto.news.NewsUrlRecordRequestDto;
+import com.stock.spring.web.dto.news.NewsUrlRecordResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

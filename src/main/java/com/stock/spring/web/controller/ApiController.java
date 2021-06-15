@@ -1,4 +1,4 @@
-package com.stock.spring.web;
+package com.stock.spring.web.controller;
 
 import com.stock.spring.service.GetService;
 import com.stock.spring.web.dto.GetCompanyNameResponseDto;
@@ -37,5 +37,9 @@ public class ApiController {
     public List<GetDateRangeResponseDto> dateRangeByCompany(@PathVariable String companyName) {
         return getService.dateRangeByCompany(companyName);
     }
+
+
+
+
 
 }

@@ -2,6 +2,7 @@ package com.stock.spring.web;
 
 import com.stock.spring.domain.company.Company;
 import com.stock.spring.domain.company.CompanyRepository;
+import com.stock.spring.web.controller.ApiController;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.runner.RunWith;
@@ -87,5 +88,13 @@ public class ApiControllerTest {
         Assertions.assertThat(response1.getStatusCode()).isEqualTo(HttpStatus.OK);
         log.info(response1.toString());
         log.info(response2.toString());
+    }
+
+    @Test
+    public void 인기뉴스키워드검색() throws Exception {
+                String url = "http://localhost:" + port + "/api/finance/news/popular";
+
+        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+        log.info(response.toString());
     }
 }

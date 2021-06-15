@@ -1,4 +1,4 @@
-package com.stock.spring.web.dto;
+package com.stock.spring.web.dto.post;
 
 import lombok.Builder;
 import lombok.Getter;

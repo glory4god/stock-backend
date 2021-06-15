@@ -1,4 +1,4 @@
-package com.stock.spring.web.newsdto;
+package com.stock.spring.web.dto.news;
 
 import com.stock.spring.domain.data.NewsUrlRecord;
 import lombok.Getter;

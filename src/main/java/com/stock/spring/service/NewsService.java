@@ -2,9 +2,9 @@ package com.stock.spring.service;
 
 import com.stock.spring.domain.data.NewsKeywordRecordRepository;
 import com.stock.spring.domain.data.NewsUrlRecordRepository;
-import com.stock.spring.web.newsdto.NewsKeywordRecordRequestDto;
-import com.stock.spring.web.newsdto.NewsUrlRecordRequestDto;
-import com.stock.spring.web.newsdto.NewsUrlRecordResponseDto;
+import com.stock.spring.web.dto.news.NewsKeywordRecordRequestDto;
+import com.stock.spring.web.dto.news.NewsUrlRecordRequestDto;
+import com.stock.spring.web.dto.news.NewsUrlRecordResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
