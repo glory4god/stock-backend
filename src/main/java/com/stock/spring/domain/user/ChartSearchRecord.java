@@ -1,7 +1,7 @@
 package com.stock.spring.domain.user;
 
 
-import com.stock.spring.domain.BaseTimeEntity;
+import com.stock.spring.domain.BaseTimeCreateTImeEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Getter
 @Entity
 @Table(name = "chart_search_record")
-public class ChartSearchRecord extends BaseTimeEntity {
+public class ChartSearchRecord extends BaseTimeCreateTImeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,21 +24,30 @@ public class ChartSearchRecord extends BaseTimeEntity {
     @Column(name = "value", nullable = false)
     private String value;
 
-    @Column(name = "graphEffect", nullable = false)
+    @Column(name = "graph_effect", nullable = false)
     private String graphEffect;
 
-    @Column(name = "startDate", nullable = false)
+    @Column(name = "start_date", nullable = false)
     private String startDate;
 
-    @Column(name = "endDate", nullable = false)
+    @Column(name = "end_date", nullable = false)
     private String endDate;
 
+    @Column(name = "title", nullable = false)
+    private String title;
+
+    @Column(name = "content", nullable = false)
+    private String content;
+
+
     @Builder
-    public ChartSearchRecord(String companyName, String value, String graphEffect, String startDate, String endDate) {
+    public ChartSearchRecord(String companyName, String value, String graphEffect, String startDate, String endDate,String title, String content) {
         this.companyName = companyName;
         this.value = value;
         this.graphEffect = graphEffect;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.title = title;
+        this.content = content;
     }
 }
