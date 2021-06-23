@@ -11,6 +11,7 @@ public class NewsUrlRecordResponseDto {
     private String originallink;
     private String description;
     private String pubDate;
+    private String keyword;
 
     public NewsUrlRecordResponseDto(NewsUrlRecord entity) {
         this.title = entity.getTitle();
@@ -18,5 +19,7 @@ public class NewsUrlRecordResponseDto {
         this.originallink = entity.getOriginallink();
         this.description = entity.getDescription();
         this.pubDate = entity.getPubDate();
+        this.keyword = entity.getKeyword();
+
     }
 }

@@ -14,14 +14,16 @@ public class NewsUrlRecordRequestDto {
     private String originallink;
     private String pubDate;
     private String description;
+    private String keyword;
 
     @Builder
-    public NewsUrlRecordRequestDto(String title, String link,String originallink,String pubDate, String description) {
+    public NewsUrlRecordRequestDto(String title, String link,String originallink,String pubDate, String description, String keyword) {
         this.title = title;
         this.link = link;
         this.originallink = originallink;
         this.description = description;
         this.pubDate = pubDate;
+        this.keyword = keyword;
     }
 
     public NewsUrlRecord toEntity() {
@@ -31,6 +33,7 @@ public class NewsUrlRecordRequestDto {
                 .originallink(originallink)
                 .pubDate(pubDate)
                 .description(description)
+                .keyword(keyword)
                 .build();
     }
 
