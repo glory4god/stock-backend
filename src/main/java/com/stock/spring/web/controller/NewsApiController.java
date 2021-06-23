@@ -33,5 +33,9 @@ public class NewsApiController {
     public Long saveNewsUrl(@RequestBody NewsUrlRecordRequestDto requestDto) {
         return newsService.saveNewsUrl(requestDto);
     }
+    @GetMapping("/api/finance/url/{keyword}")
+    public List<NewsUrlRecordResponseDto> getPopularUrlByKeyword(@PathVariable String keyword){
+        return newsService.getPopularUrlByKeyword(keyword);
+    }
 
 }
