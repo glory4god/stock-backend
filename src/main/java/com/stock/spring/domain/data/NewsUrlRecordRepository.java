@@ -9,4 +9,7 @@ public interface NewsUrlRecordRepository extends JpaRepository<NewsUrlRecord, St
 
     @Query("SELECT u from NewsUrlRecord u GROUP BY u.link ORDER BY COUNT(u.link) DESC")
     List<NewsUrlRecord> getPopularNews();
+
+    @Query("SELECT u from NewsUrlRecord u WHERE u.keyword=?1 GROUP BY u.link ORDER BY COUNT(u.link) DESC")
+    List<NewsUrlRecord> getPopularNewsByKeyword(String keyword);
 }

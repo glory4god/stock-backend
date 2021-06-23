@@ -47,6 +47,7 @@ public class NewsService {
             } else {  // 에러 발생
                 br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
             }
+
             String inputLine;
             StringBuffer response = new StringBuffer();
             while ((inputLine = br.readLine()) != null) {
@@ -83,6 +84,14 @@ public class NewsService {
                 .map(NewsUrlRecordResponseDto::new)
                 .collect(Collectors.toList());
     }
+
+    @Transactional(readOnly = true)
+    public List<NewsUrlRecordResponseDto> getPopularUrlByKeyword(String keyword){
+        return newsUrlRecordRepository.getPopularNewsByKeyword(keyword).stream()
+                .map(NewsUrlRecordResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
 
 
     public void getKeywords(String keyword) {
