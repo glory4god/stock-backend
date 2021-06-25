@@ -1,6 +1,7 @@
 package com.stock.spring.web.controller;
 
 import com.stock.spring.service.PostService;
+import com.stock.spring.web.dto.GetChatResponseDto;
 import com.stock.spring.web.dto.post.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +32,8 @@ public class PostApiController {
     }
 
     @PostMapping("/api/user/chart-record/post")
-    public Long saveSearchRecord(@RequestBody ChartRecordRequestDto requestDto) {
-        return postService.saveSearchRecord(requestDto);
+    public Long saveChartSearchRecord(@RequestBody ChartRecordRequestDto requestDto) {
+        return postService.saveChartSearchRecord(requestDto);
     }
 
     @GetMapping("/api/user/chart-records")

@@ -1,7 +1,8 @@
 package com.stock.spring.web;
 
 import com.stock.spring.domain.user.ReportRepository;
-import com.stock.spring.web.dto.PostReportSaveRequestDto;
+import com.stock.spring.web.controller.PostApiController;
+import com.stock.spring.web.dto.post.PostReportSaveRequestDto;
 import junit.framework.TestCase;
 import org.assertj.core.api.Assertions;
 import org.junit.After;
@@ -48,10 +49,8 @@ public class PostApiControllerTest extends TestCase {
         //given
         PostReportSaveRequestDto requestDto = PostReportSaveRequestDto.builder()
                 .userId("hayoung")
-                .password("123123")
-                .companyName("삼성전자")
-                .startDate("2021-05-06")
-                .endDate("2021-05-28")
+                .title("제목")
+                .content("내용")
                 .build();
 
         String url = "http://localhost:" + port + "/api/stock/report/post";
