@@ -3,7 +3,6 @@ package com.stock.spring.web;
 import com.stock.spring.domain.user.ReportRepository;
 import com.stock.spring.web.controller.PostApiController;
 import junit.framework.TestCase;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -54,13 +53,5 @@ public class PostApiControllerTest extends TestCase {
 //        Assertions.assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
 //    }
 //
-    @Test
-    public void 리포트Id조회_테스트() throws Exception {
 
-    }
-
-    @Test
-    public void 리포트삭제_테스트() throws Exception{
-
-    }
 }

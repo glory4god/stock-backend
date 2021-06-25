@@ -1,8 +1,6 @@
 package com.stock.spring.domain.user;
 
 
-import org.junit.After;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,11 +12,6 @@ public class ReportRepositoryTest  {
 
     @Autowired
     ReportRepository reportRepository;
-
-    @After
-    public void dataCleanUp() {
-        reportRepository.deleteAll();
-    }
 
 //    @Test
 //    public void 리포트테이블생성조회테스트() {
@@ -69,9 +62,5 @@ public class ReportRepositoryTest  {
 //
 //    }
 
-    @Test
-    public void 리포트Id조회_테스트() throws Exception {
-
-}
 
 }

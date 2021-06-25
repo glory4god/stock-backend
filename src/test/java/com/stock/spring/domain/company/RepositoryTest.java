@@ -1,7 +1,6 @@
 package com.stock.spring.domain.company;
 
 import com.stock.spring.domain.data.DataRepository;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,10 +26,6 @@ public class RepositoryTest {
 //        dataRepository.deleteAll();
 //    }
 
-    @Test
-    public void 리포트Id조회_테스트() throws Exception {
-
-    }
 
 //    @Test
 //    public void 디비컴패니테이블생성테스트() {
