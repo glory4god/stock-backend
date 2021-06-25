@@ -55,7 +55,7 @@ public class ApiControllerTest {
         String endDate = "2021-05-07";
         MultiValueMap<String, String> info = new LinkedMultiValueMap<>();
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/stock/data/condition/3/")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/chart/company/3")
                 .param("start", startDate)
                 .param("end", endDate))
                 .andDo(print())
@@ -77,8 +77,8 @@ public class ApiControllerTest {
                 .name("kakaogames")
                 .build());
 
-        String url1 = "http://localhost:" + port + "/api/stock/companyname/kospi";
-        String url2 = "http://localhost:" + port + "/api/stock/companyname/kosdaq";
+        String url1 = "http://localhost:" + port + "/api/v1/chart/companyname/kospi";
+        String url2 = "http://localhost:" + port + "/api/v1/chart/companyname/kosdaq";
 
         //when
         ResponseEntity<String> response1 = restTemplate.getForEntity(url1, String.class);
@@ -92,7 +92,7 @@ public class ApiControllerTest {
 
     @Test
     public void 인기뉴스키워드검색() throws Exception {
-                String url = "http://localhost:" + port + "/api/finance/news/popular";
+                String url = "http://localhost:" + port + "/api/v1/news/pop-keyword";
 
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
         log.info(response.toString());
