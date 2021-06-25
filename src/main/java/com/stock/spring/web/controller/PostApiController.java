@@ -15,21 +15,21 @@ public class PostApiController {
     private final PostService postService;
 
     // report 관련 POST
-    @PostMapping("/api/stock/report/post")
-    public PostReportResponseDto saveReport(@RequestBody PostReportSaveRequestDto requestDto) {
-        Long id = postService.saveReport(requestDto);
-        return postService.findReportById(id);
-    }
-
-    @GetMapping("/api/stock/report/post/{reportId}")
-    public PostReportResponseDto findReportById(@PathVariable Long reportId) {
-        return postService.findReportById(reportId);
-    }
-
-    @DeleteMapping("/api/stock/report/post/{reportId}")
-    public Long deleteReport(@PathVariable Long reportId, @RequestBody DeleteReportRequestDto requestDto) {
-        return postService.deleteReport(reportId, requestDto);
-    }
+//    @PostMapping("/api/stock/report/post")
+//    public PostReportResponseDto saveReport(@RequestBody PostReportSaveRequestDto requestDto) {
+//        Long id = postService.saveReport(requestDto);
+//        return postService.findReportById(id);
+//    }
+//
+//    @GetMapping("/api/stock/report/post/{reportId}")
+//    public PostReportResponseDto findReportById(@PathVariable Long reportId) {
+//        return postService.findReportById(reportId);
+//    }
+//
+//    @DeleteMapping("/api/stock/report/post/{reportId}")
+//    public Long deleteReport(@PathVariable Long reportId, @RequestBody DeleteReportRequestDto requestDto) {
+//        return postService.deleteReport(reportId, requestDto);
+//    }
 
     @PostMapping("/api/user/chart-record/post")
     public Long saveChartSearchRecord(@RequestBody ChartRecordRequestDto requestDto) {
