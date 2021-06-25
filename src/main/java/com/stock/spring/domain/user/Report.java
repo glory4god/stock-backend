@@ -20,24 +20,16 @@ public class Report extends BaseTimeEntity {
     @Column(name = "user_id", nullable = false)
     private String userId;
 
-    @Column(name = "password", nullable = false)
-    private String password;
+    @Column(name = "title", nullable = false)
+    private String title;
 
-    @Column(name = "company_name", nullable = false)
-    private String companyName;
-
-    @Column(name = "start_date", nullable = false)
-    private String startDate;
-
-    @Column(name = "end_date", nullable = false)
-    private String endDate;
+    @Column(name = "content", nullable = false)
+    private String content;
 
     @Builder
-    public Report(String userId,String password, String companyName, String startDate, String endDate) {
+    public Report(String userId, String title, String content) {
         this.userId = userId;
-        this.password = password;
-        this.companyName = companyName;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.title = title;
+        this.content = content;
     }
 }

@@ -5,6 +5,7 @@ import com.stock.spring.domain.user.ChartSearchRecordRepository;
 import com.stock.spring.domain.user.Report;
 import com.stock.spring.domain.user.ReportRepository;
 import com.stock.spring.domain.user.UserRepository;
+import com.stock.spring.web.dto.GetChatResponseDto;
 import com.stock.spring.web.dto.post.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -51,7 +52,7 @@ public class PostService {
 
     // ChartSearch 관련
     @Transactional
-    public Long saveSearchRecord(ChartRecordRequestDto requestDto) {
+    public Long saveChartSearchRecord(ChartRecordRequestDto requestDto) {
         return chartSearchRecordRepository.save(requestDto.toEntity()).getId();
     }
 

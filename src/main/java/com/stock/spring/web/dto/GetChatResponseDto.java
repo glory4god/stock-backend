@@ -1,4 +1,4 @@
-package com.stock.spring.web.dto.post;
+package com.stock.spring.web.dto;
 
 import com.stock.spring.domain.data.Chat;
 import lombok.Getter;
