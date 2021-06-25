@@ -3,6 +3,7 @@ package com.stock.spring.service;
 import com.stock.spring.domain.company.CompanyRepository;
 import com.stock.spring.domain.data.Data;
 import com.stock.spring.domain.data.DataRepository;
+import com.stock.spring.web.dto.ConvertCustomDataDto;
 import com.stock.spring.web.dto.GetCompanyNameResponseDto;
 import com.stock.spring.web.dto.GetDateRangeResponseDto;
 import com.stock.spring.web.dto.GetDateResponseDto;
@@ -24,7 +25,7 @@ public class GetService {
     @Transactional(readOnly = true)
     public List<String> CompanyNameListByMarket(String market) {
         List<String> collect = companyRepository.findByMarket(market).stream()
-                .map((c)-> c.getName())
+                .map((c) -> c.getName())
                 .collect(Collectors.toList());
         return collect;
     }
@@ -37,8 +38,8 @@ public class GetService {
     }
 
     @Transactional(readOnly = true)
-    public List<GetDateResponseDto> dataListByDate(String companyName ,String startDate, String endDate) {
-        List<GetDateResponseDto> list =  dataRepository.dataListByDate(companyName, startDate, endDate).stream()
+    public List<GetDateResponseDto> dataListByDate(String companyName, String startDate, String endDate) {
+        List<GetDateResponseDto> list = dataRepository.dataListByDate(companyName, startDate, endDate).stream()
                 .map(GetDateResponseDto::new)
                 .collect(Collectors.toList());
         return list;
@@ -54,5 +55,19 @@ public class GetService {
         range.add(new GetDateRangeResponseDto(end));
 
         return range;
+    }
+
+    @Transactional(readOnly = true)
+    public List<ConvertCustomDataDto> getCustomDataByDate(String companyName, String startDate, String endDate) {
+        List<Data> entity =  dataRepository.dataListByDate(companyName, startDate, endDate);
+        return entity.stream().map((data) -> ConvertCustomDataDto.builder()
+                .date(data.getDate())
+                .open(data.getOpen())
+                .close(data.getClose())
+                .low(data.getLow())
+                .high(data.getHigh())
+                .build()
+        ).collect(Collectors.toList());
+
     }
 }

@@ -1,6 +1,7 @@
 package com.stock.spring.web.controller;
 
 import com.stock.spring.service.GetService;
+import com.stock.spring.web.dto.ConvertCustomDataDto;
 import com.stock.spring.web.dto.GetCompanyNameResponseDto;
 import com.stock.spring.web.dto.GetDateRangeResponseDto;
 import com.stock.spring.web.dto.GetDateResponseDto;
@@ -38,6 +39,11 @@ public class ApiController {
         return getService.dateRangeByCompany(companyName);
     }
 
+    @GetMapping("/api/stock/data/condition/custom/{companyName}")
+    public List<ConvertCustomDataDto> getCustomDataByDate(@PathVariable String companyName, @RequestParam(value = "start") String startDate, @RequestParam(value = "end") String endDate) {
+        System.out.println(startDate + " " + endDate);
+        return getService.getCustomDataByDate(companyName, startDate, endDate);
+    }
 
 
 
