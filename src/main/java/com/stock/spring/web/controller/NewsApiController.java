@@ -19,16 +19,24 @@ public class NewsApiController {
         return newsService.getNews(keyword, sort);
     }
 
-    @GetMapping("/api/v1/news/pop-keyword")
-    public List<String> getPopularKeyword() {
-        return newsService.getPopularKeyword();
+    @GetMapping("/api/v1/news/pop-keyword/daily")
+    public List<String> getPopularKeywordByDaily() {
+        return newsService.getPopularKeywordByDaily();
     }
 
-    @GetMapping("/api/v1/news/pop-url")
-    public List<NewsUrlRecordResponseDto> getPopularUrl() {
-        return newsService.getPopularUrl();
+    @GetMapping("/api/v1/news/pop-keyword/weekly")
+    public List<String> getPopularKeywordByWeekly() {
+        return newsService.getPopularKeywordByWeekly();
     }
 
+    @GetMapping("/api/v1/news/pop-url/daily")
+    public List<NewsUrlRecordResponseDto> getPopularUrlByDaily() {
+        return newsService.getPopularUrlByDaily();
+    }
+    @GetMapping("/api/v1/news/pop-url/weekly")
+    public List<NewsUrlRecordResponseDto> getPopularUrlByWeekly() {
+        return newsService.getPopularUrlByWeekly();
+    }
     @PostMapping("/api/v1/news/url/post")
     public Long saveNewsUrl(@RequestBody NewsUrlRecordRequestDto requestDto) {
         return newsService.saveNewsUrl(requestDto);
