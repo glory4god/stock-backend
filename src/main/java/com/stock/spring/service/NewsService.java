@@ -15,6 +15,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,15 +74,45 @@ public class NewsService {
     }
 
     @Transactional(readOnly = true)
-    public List<String> getPopularKeyword() {
-        return newsKeywordRecordRepository.getPopularKeyword().stream()
+    public List<String> getPopularKeywordByDaily() {
+        return newsKeywordRecordRepository.getPopularKeywordByDaily().stream()
                 .map((c)->c.getKeyword())
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public List<NewsUrlRecordResponseDto> getPopularUrl() {
-        return newsUrlRecordRepository.getPopularNews().stream()
+    public List<String> getPopularKeywordByWeekly() {
+        SimpleDateFormat format = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+
+        Calendar cal = Calendar.getInstance();
+
+        String current = format.format (System.currentTimeMillis());
+        cal.add(Calendar.DAY_OF_MONTH, -7);
+        String intervalWeek = format.format (cal.getTime());
+
+        return newsKeywordRecordRepository.getPopularKeywordByWeekly(current,intervalWeek).stream()
+                .map((c)->c.getKeyword())
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<NewsUrlRecordResponseDto> getPopularUrlByDaily() {
+        return newsUrlRecordRepository.getPopularNewsByDaily().stream()
+                .map(NewsUrlRecordResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<NewsUrlRecordResponseDto> getPopularUrlByWeekly() {
+        SimpleDateFormat format = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+
+        Calendar cal = Calendar.getInstance();
+
+        String current = format.format (System.currentTimeMillis());
+        cal.add(Calendar.DAY_OF_MONTH, -7);
+        String intervalWeek = format.format (cal.getTime());
+
+        return newsUrlRecordRepository.getPopularNewsByWeekly(current,intervalWeek).stream()
                 .map(NewsUrlRecordResponseDto::new)
                 .collect(Collectors.toList());
     }
