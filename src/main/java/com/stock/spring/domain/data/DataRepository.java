@@ -12,9 +12,9 @@ public interface DataRepository extends JpaRepository<Data, String> {
     @Query("SELECT d FROM Data d WHERE company_name=?1 AND (date BETWEEN ?2 AND ?3) ORDER BY d.date")
     List<Data> dataListByDate(String companyName,String startDate, String endDate);
 
-    @Query("SELECT d FROM Data d WHERE company_name=?1 ORDER BY d.date")
-    List<Data> dateStartByCompany(String companyName);
+    @Query(nativeQuery = true,value = "SELECT * FROM data WHERE company_name=?1 ORDER BY date LIMIT 1")
+    Data dateStartByCompany(String company);
 
-    @Query("SELECT d FROM Data d WHERE company_name=?1 ORDER BY d.date DESC")
-    List<Data> dateEndByCompany(String companyName);
+    @Query(nativeQuery = true,value = "SELECT * FROM data WHERE company_name=?1 ORDER BY date DESC LIMIT 1")
+    Data dateEndByCompany(String company);
 }
