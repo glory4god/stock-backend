@@ -47,8 +47,8 @@ public class GetService {
 
     @Transactional(readOnly = true)
     public List<GetDateRangeResponseDto> dateRangeByCompany(String companyName) {
-        Data start = dataRepository.dateStartByCompany(companyName);
-        Data end = dataRepository.dateEndByCompany(companyName);
+        Data start = dataRepository.dateStartByCompany(companyName).get(0);
+        Data end = dataRepository.dateEndByCompany(companyName).get(0);
 
         List<GetDateRangeResponseDto> range = new ArrayList<>();
         range.add(new GetDateRangeResponseDto(start));
