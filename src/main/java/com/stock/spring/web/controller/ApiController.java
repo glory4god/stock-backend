@@ -34,7 +34,7 @@ public class ApiController {
         return getService.dataListByDate(companyName, startDate, endDate);
     }
 
-    @GetMapping("/api/v1/chart/company-date/{companyName}")
+    @GetMapping("/api/v1/chart/companydate/{companyName}")
     public List<GetDateRangeResponseDto> dateRangeByCompany(@PathVariable String companyName) {
         return getService.dateRangeByCompany(companyName);
     }
