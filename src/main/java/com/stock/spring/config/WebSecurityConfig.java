@@ -25,6 +25,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter { // 2
     @Override
     protected void configure(HttpSecurity http) throws Exception { // 5
         http
+                .csrf().disable()
+                .headers()
+                .frameOptions().sameOrigin()
+                .and()
                 .authorizeRequests() // 6
                 .antMatchers("/login", "/signup", "/user","/api/**").permitAll() // 누구나 접근 허용
                 .antMatchers("/user").hasRole("USER") // USER, ADMIN만 접근 가능
@@ -41,8 +45,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter { // 2
         ;
 
         // 여기 아래 두개 추가해서 POSTMAPPING CORS 문제 해결 됐는데 이유....가 ??!!
-        http.csrf().disable();
-        http.headers().frameOptions().disable();
+//        http.csrf().disable();
+//        http.headers().frameOptions().disable();
     }
 
     @Override

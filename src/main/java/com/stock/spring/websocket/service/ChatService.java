@@ -22,10 +22,9 @@ public class ChatService {
     @Transactional
     public MessageResponseDto saveChat(MessageRequestDto message) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        Message message1 = new Message(message.getUsername(), message.getContent());
-        message1.setDate(LocalDateTime.now().format(formatter));
+        Message message1 = new Message(message.getUsername(), message.getContent(),LocalDateTime.now().format(formatter));
         messageRepository.save(message1);
-        System.out.println(message.getContent());
+        System.out.println(message1.getUsername() +":"+ message1.getContent());
         return new MessageResponseDto(message1);
     }
 

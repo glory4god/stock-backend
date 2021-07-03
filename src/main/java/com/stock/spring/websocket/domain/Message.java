@@ -3,13 +3,11 @@ package com.stock.spring.websocket.domain;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 
 @NoArgsConstructor
 @Getter
-@Setter
 @Entity
 @Table(name = "chatting")
 public class Message {
@@ -28,8 +26,9 @@ public class Message {
     private String date;
 
     @Builder
-    public Message(String username, String content) {
+    public Message(String username, String content,String date) {
         this.username = username;
         this.content = content;
+        this.date = date;
     }
 }
