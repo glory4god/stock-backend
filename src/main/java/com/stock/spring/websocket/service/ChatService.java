@@ -22,7 +22,7 @@ public class ChatService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         message.setDate(LocalDateTime.now().format(formatter));
         Message entity = messageRepository.save(message);
-        System.out.println(entity);
+        System.out.println(message.getContent());
         return entity;
     }
 
