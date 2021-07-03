@@ -2,6 +2,8 @@ package com.stock.spring.websocket.service;
 
 import com.stock.spring.websocket.domain.Message;
 import com.stock.spring.websocket.domain.MessageRepository;
+import com.stock.spring.websocket.web.MessageRequestDto;
+import com.stock.spring.websocket.web.MessageResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,12 +20,13 @@ public class ChatService {
     private final MessageRepository messageRepository;
 
     @Transactional
-    public Message saveChat(Message message) {
+    public MessageResponseDto saveChat(MessageRequestDto message) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        message.setDate(LocalDateTime.now().format(formatter));
-        Message entity = messageRepository.save(message);
+        Message message1 = new Message(message.getUsername(), message.getContent());
+        message1.setDate(LocalDateTime.now().format(formatter));
+        messageRepository.save(message1);
         System.out.println(message.getContent());
-        return entity;
+        return new MessageResponseDto(message1);
     }
 
     @Transactional(readOnly = true)

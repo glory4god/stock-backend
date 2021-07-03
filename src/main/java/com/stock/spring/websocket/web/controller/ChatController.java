@@ -2,6 +2,8 @@ package com.stock.spring.websocket.web.controller;
 
 import com.stock.spring.websocket.domain.Message;
 import com.stock.spring.websocket.service.ChatService;
+import com.stock.spring.websocket.web.MessageRequestDto;
+import com.stock.spring.websocket.web.MessageResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -19,12 +21,12 @@ public class ChatController {
     private final SimpMessagingTemplate simpMessagingTemplate;
 
     @MessageMapping("/send-message")
-    public Message boardCast(Message message) throws Exception {
+    public MessageResponseDto boardCast(MessageRequestDto message) throws Exception {
         Thread.sleep(500); // delay 0.5 second!
-        chatService.saveChat(message);
-        simpMessagingTemplate.convertAndSend("/topic/roomId", message);
+        MessageResponseDto responseDto =chatService.saveChat(message);
+        simpMessagingTemplate.convertAndSend("/topic/roomId", responseDto);
 
-        return message;
+        return responseDto;
     }
 
     @GetMapping("/api/v2/web-socket/topic/roomId/all")
