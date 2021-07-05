@@ -1,10 +1,13 @@
 package com.stock.spring.web.controller;
 
 import com.stock.spring.service.PostService;
-import com.stock.spring.web.dto.GetChatResponseDto;
-import com.stock.spring.web.dto.post.*;
+import com.stock.spring.web.dto.post.ChartRecordRequestDto;
+import com.stock.spring.web.dto.post.ChartRecordResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -31,24 +34,14 @@ public class PostApiController {
 //        return postService.deleteReport(reportId, requestDto);
 //    }
 
-    @PostMapping("/api/user/chart-record/post")
+    @PostMapping("/api/v1/user/chart-report/post")
     public Long saveChartSearchRecord(@RequestBody ChartRecordRequestDto requestDto) {
         return postService.saveChartSearchRecord(requestDto);
     }
 
-    @GetMapping("/api/user/chart-records")
+    @GetMapping("/api/v1/user/chart-report")
     public List<ChartRecordResponseDto> getChartRecordList() {
         return postService.getChartRecordList();
     }
 
-    // Chat 관련 POST
-    @PostMapping("/api/stock/data/chat/post")
-    public Long saveChat(@RequestBody PostChatRequestDto requestDto) {
-        return postService.saveChat(requestDto);
-    }
-
-    @GetMapping("/api/stock/data/chat")
-    public List<GetChatResponseDto> getChatList() {
-        return postService.getChatList();
-    }
 }

@@ -1,13 +1,10 @@
 package com.stock.spring.service;
 
-import com.stock.spring.domain.data.ChatRepository;
 import com.stock.spring.domain.user.ChartSearchRecordRepository;
 import com.stock.spring.domain.user.ReportRepository;
 import com.stock.spring.domain.user.UserRepository;
-import com.stock.spring.web.dto.GetChatResponseDto;
 import com.stock.spring.web.dto.post.ChartRecordRequestDto;
 import com.stock.spring.web.dto.post.ChartRecordResponseDto;
-import com.stock.spring.web.dto.post.PostChatRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +18,6 @@ public class PostService {
 
     private final ReportRepository reportRepository;
     private final ChartSearchRecordRepository chartSearchRecordRepository;
-    private final ChatRepository chatRepository;
     private final UserRepository userRepository;
 
     // report 관련 (여기 부분 애매 다르게 변경할 필요있음)
@@ -65,17 +61,4 @@ public class PostService {
         return collect;
     }
 
-    // Chat 관련
-    @Transactional
-    public Long saveChat(PostChatRequestDto requestDto) {
-        return chatRepository.save(requestDto.toEntity()).getId();
-    }
-
-    @Transactional(readOnly = true)
-    public List<GetChatResponseDto> getChatList() {
-        List<GetChatResponseDto> chatList = chatRepository.findLatest().stream()
-                .map(GetChatResponseDto::new)
-                .collect(Collectors.toList());
-        return chatList;
-    }
 }
