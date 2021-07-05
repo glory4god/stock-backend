@@ -38,6 +38,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-mustache')
     compile('org.springframework.session:spring-session-jdbc')
     compile("org.mariadb.jdbc:mariadb-java-client:2.4.1")
+    compile("org.jsoup:jsoup:1.13.1")
     annotationProcessor('org.projectlombok:lombok')
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
