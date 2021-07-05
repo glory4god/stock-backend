@@ -35,8 +35,11 @@ public class NewsUrlRecord extends BaseTimeCreateTImeEntity {
     @Column(name = "keyword", nullable = false)
     private String keyword;
 
+    @Column(name = "image_url", nullable = false)
+    private String imageUrl;
+
     @Builder
-    public NewsUrlRecord(String title, String link, String originallink, String pubDate, String description, String keyword
+    public NewsUrlRecord(String title, String link, String originallink, String pubDate, String description, String keyword, String imageUrl
     ) {
 
         this.title = title;
@@ -45,6 +48,7 @@ public class NewsUrlRecord extends BaseTimeCreateTImeEntity {
         this.description = description;
         this.pubDate = pubDate;
         this.keyword = keyword;
+        this.imageUrl = imageUrl;
     }
 
 }

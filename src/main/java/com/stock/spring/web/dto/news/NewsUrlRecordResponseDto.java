@@ -12,6 +12,7 @@ public class NewsUrlRecordResponseDto {
     private String description;
     private String pubDate;
     private String keyword;
+    private String imageUrl;
 
     public NewsUrlRecordResponseDto(NewsUrlRecord entity) {
         this.title = entity.getTitle();
@@ -20,6 +21,6 @@ public class NewsUrlRecordResponseDto {
         this.description = entity.getDescription();
         this.pubDate = entity.getPubDate();
         this.keyword = entity.getKeyword();
-
+        this.imageUrl = entity.getImageUrl();
     }
 }

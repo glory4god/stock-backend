@@ -26,7 +26,7 @@ public class NewsUrlRecordRequestDto {
         this.keyword = keyword;
     }
 
-    public NewsUrlRecord toEntity() {
+    public NewsUrlRecord toEntity(String imageUrl) {
         return NewsUrlRecord.builder()
                 .title(title)
                 .link(link)
@@ -34,6 +34,7 @@ public class NewsUrlRecordRequestDto {
                 .pubDate(pubDate)
                 .description(description)
                 .keyword(keyword)
+                .imageUrl(imageUrl)
                 .build();
     }
 
