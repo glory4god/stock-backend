@@ -6,6 +6,8 @@ import com.stock.spring.web.dto.news.NewsKeywordRecordRequestDto;
 import com.stock.spring.web.dto.news.NewsUrlRecordRequestDto;
 import com.stock.spring.web.dto.news.NewsUrlRecordResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -70,7 +72,10 @@ public class NewsService {
 
     @Transactional
     public Long saveNewsUrl(NewsUrlRecordRequestDto requestDto) {
-        return newsUrlRecordRepository.save(requestDto.toEntity()).getId();
+        // 수정수정
+        String imageUrl = getMetaData(requestDto.getLink());
+        
+        return newsUrlRecordRepository.save(requestDto.toEntity(imageUrl)).getId();
     }
 
     @Transactional(readOnly = true)
@@ -122,6 +127,20 @@ public class NewsService {
         return newsUrlRecordRepository.getPopularNewsByKeyword(keyword).stream()
                 .map(NewsUrlRecordResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+    public String getMetaData(String url) {
+
+        Document document;
+        try {
+            document = Jsoup.connect(url).get();
+
+            return document.select("meta[property=og:image]").first()
+                    .attr("content");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "nothing";
     }
 
 
