@@ -1,6 +1,6 @@
 package com.stock.spring.web.dto.post;
 
-import com.stock.spring.domain.user.ChartSearchRecord;
+import com.stock.spring.domain.user.ChartReport;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +8,8 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Getter
-public class ChartRecordRequestDto {
+public class ChartReportRequestDto {
+    private String username;
     private String companyName;
     private String value;
     private String graphEffect;
@@ -18,7 +19,8 @@ public class ChartRecordRequestDto {
     private String content;
 
     @Builder
-    public ChartRecordRequestDto(String companyName, String value, String graphEffect, String startDate, String endDate, String title, String content) {
+    public ChartReportRequestDto(String username, String companyName, String value, String graphEffect, String startDate, String endDate, String title, String content) {
+        this.username = username;
         this.companyName = companyName;
         this.value = value;
         this.graphEffect = graphEffect;
@@ -28,8 +30,9 @@ public class ChartRecordRequestDto {
         this.content = content;
     }
 
-    public ChartSearchRecord toEntity() {
-        return ChartSearchRecord.builder()
+    public ChartReport toEntity() {
+        return ChartReport.builder()
+                .username(username)
                 .companyName(companyName)
                 .value(value)
                 .graphEffect(graphEffect)
@@ -37,6 +40,8 @@ public class ChartRecordRequestDto {
                 .endDate(endDate)
                 .title(title)
                 .content(content)
+                .good(0)
+                .bad(0)
                 .build();
     }
 
