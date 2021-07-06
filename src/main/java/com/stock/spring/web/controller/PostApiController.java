@@ -1,13 +1,10 @@
 package com.stock.spring.web.controller;
 
 import com.stock.spring.service.PostService;
-import com.stock.spring.web.dto.post.ChartRecordRequestDto;
-import com.stock.spring.web.dto.post.ChartRecordResponseDto;
+import com.stock.spring.web.dto.post.ChartReportSaveRequestDto;
+import com.stock.spring.web.dto.post.ChartReportResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -35,13 +32,17 @@ public class PostApiController {
 //    }
 
     @PostMapping("/api/v1/user/chart-report/post")
-    public Long saveChartSearchRecord(@RequestBody ChartRecordRequestDto requestDto) {
+    public Long saveChartSearchRecord(@RequestBody ChartReportSaveRequestDto requestDto) {
         return postService.saveChartSearchRecord(requestDto);
     }
 
     @GetMapping("/api/v1/user/chart-report")
-    public List<ChartRecordResponseDto> getChartRecordList() {
-        return postService.getChartRecordList();
+    public List<ChartReportResponseDto> getChartRecordList() {
+        return postService.getChartReportList();
     }
 
+    @GetMapping("api/v1/user/chart-report/{id}")
+    public ChartReportResponseDto getChartById(@PathVariable Long id) {
+        return postService.getChartReportById(id);
+    }
 }

@@ -22,6 +22,7 @@ public class GetService {
     private final CompanyRepository companyRepository;
     private final DataRepository dataRepository;
 
+    // chart page 관련
     @Transactional(readOnly = true)
     public List<String> CompanyNameListByMarket(String market) {
         List<String> collect = companyRepository.findByMarket(market).stream()
@@ -68,6 +69,7 @@ public class GetService {
                 .high(data.getHigh())
                 .build()
         ).collect(Collectors.toList());
-
     }
+
+
 }
