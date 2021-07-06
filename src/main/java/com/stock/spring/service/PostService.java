@@ -5,6 +5,7 @@ import com.stock.spring.domain.user.UserRepository;
 import com.stock.spring.web.dto.post.ChartReportResponseDto;
 import com.stock.spring.web.dto.post.ChartReportSaveRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,7 +55,7 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public List<ChartReportResponseDto> getChartReportList() {
-        List<ChartReportResponseDto> collect = chartReportRepository.findAll().stream()
+        List<ChartReportResponseDto> collect = chartReportRepository.findAll(Sort.by(Sort.Direction.DESC,"modifiedDate")).stream()
                 .map(ChartReportResponseDto::new)
                 .collect(Collectors.toList());
         return collect;
