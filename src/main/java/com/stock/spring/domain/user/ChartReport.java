@@ -48,9 +48,13 @@ public class ChartReport extends BaseTimeEntity {
     @Column(name = "bad", nullable = false)
     private int bad;
 
+    @Column(name = "views", nullable = false)
+    private int views;
+
+
     @Builder
     public ChartReport(String username, String companyName, String value, String graphEffect,
-                       String startDate, String endDate, String title, String content, int good, int bad) {
+                       String startDate, String endDate, String title, String content, int good, int bad, int views) {
         this.username = username;
         this.companyName = companyName;
         this.value = value;
@@ -61,5 +65,6 @@ public class ChartReport extends BaseTimeEntity {
         this.content = content;
         this.good = good;
         this.bad = bad;
+        this.views = views;
     }
 }

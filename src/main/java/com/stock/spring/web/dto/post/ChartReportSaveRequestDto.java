@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Getter
-public class ChartReportRequestDto {
+public class ChartReportSaveRequestDto {
     private String username;
     private String companyName;
     private String value;
@@ -19,7 +19,7 @@ public class ChartReportRequestDto {
     private String content;
 
     @Builder
-    public ChartReportRequestDto(String username, String companyName, String value, String graphEffect, String startDate, String endDate, String title, String content) {
+    public ChartReportSaveRequestDto(String username, String companyName, String value, String graphEffect, String startDate, String endDate, String title, String content) {
         this.username = username;
         this.companyName = companyName;
         this.value = value;
@@ -42,6 +42,7 @@ public class ChartReportRequestDto {
                 .content(content)
                 .good(0)
                 .bad(0)
+                .views(0)
                 .build();
     }
 
