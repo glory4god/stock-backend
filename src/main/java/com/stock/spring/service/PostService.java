@@ -47,22 +47,71 @@ public class PostService {
 //        return id;
 //    }
 
+    
     // ChartReport 관련
+    // ChartReport save 
     @Transactional
     public Long saveChartSearchRecord(ChartReportSaveRequestDto requestDto) {
         return chartReportRepository.save(requestDto.toEntity()).getId();
     }
-
+    // ChartReport 전체 List 조회 날짜 빠른순으로 정렬
     @Transactional(readOnly = true)
     public List<ChartReportResponseDto> getChartReportList() {
-        List<ChartReportResponseDto> collect = chartReportRepository.findAll(Sort.by(Sort.Direction.DESC,"modifiedDate")).stream()
+        // Sort.by 방법으로 쿼리문 안짜도 되네 ... 굿..!!!
+        List<ChartReportResponseDto> collect = chartReportRepository.findAll(Sort.by(Sort.Direction.DESC, "modifiedDate")).stream()
                 .map(ChartReportResponseDto::new)
                 .collect(Collectors.toList());
         return collect;
     }
-
+    // ChartReport id로 조회
     @Transactional(readOnly = true)
-    public ChartReportResponseDto getChartReportById (Long id) {
+    public ChartReportResponseDto getChartReportById(Long id) {
         return new ChartReportResponseDto(chartReportRepository.getReportById(id));
     }
+
+    // 좋아요 up기능(추후에 같은 username 중복 안되게 만들기)
+    @Transactional
+    public String updateGoodById(Long id, String value) {
+        int good = chartReportRepository.getReportById(id).getGood();
+        if (value.equals("up")){
+            int result =  chartReportRepository.updateGoodById(id, good + 1);
+            return "up success";
+        } else if (value.equals("down")){
+            int result =  chartReportRepository.updateGoodById(id, good - 1);
+            return "down success";
+        } else {
+            return "only up & down query";
+        }
+    }
+
+    // 싫어요 up기능(추후에 같은 username 중복 안되게 만들기)
+    @Transactional
+    public String updateBadById(Long id, String value) {
+        int bad = chartReportRepository.getReportById(id).getBad();
+        if (value.equals("up")){
+            int result =  chartReportRepository.updateBadById(id, bad + 1);
+            return "up success";
+        } else if (value.equals("down")){
+            int result =  chartReportRepository.updateBadById(id, bad - 1);
+            return "down success";
+        } else {
+            return "only up & down query";
+        }
+    }
+
+    // 조회수 up
+    @Transactional
+    public String updateIncreaseViewsById(Long id) {
+        int views = chartReportRepository.getReportById(id).getViews();
+        int value = chartReportRepository.updateViewsById(id, views + 1);
+
+        if(value==1){
+            return "up success!";
+        } else {
+            return "up failed!";
+        }
+    }
+
+
+
 }

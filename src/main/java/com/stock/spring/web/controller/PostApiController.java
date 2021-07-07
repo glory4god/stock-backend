@@ -6,7 +6,9 @@ import com.stock.spring.web.dto.post.ChartReportResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
@@ -31,18 +33,49 @@ public class PostApiController {
 //        return postService.deleteReport(reportId, requestDto);
 //    }
 
+    // report POST
     @PostMapping("/api/v1/user/chart-report/post")
     public Long saveChartSearchRecord(@RequestBody ChartReportSaveRequestDto requestDto) {
         return postService.saveChartSearchRecord(requestDto);
     }
 
+    // report 전체 List 조회
     @GetMapping("/api/v1/user/chart-report")
     public List<ChartReportResponseDto> getChartRecordList() {
         return postService.getChartReportList();
     }
 
-    @GetMapping("api/v1/user/chart-report/{id}")
+    // report id로 조회
+    @GetMapping("/api/v1/user/chart-report/{id}")
     public ChartReportResponseDto getChartById(@PathVariable Long id) {
         return postService.getChartReportById(id);
     }
+
+
+    // 좋아요 기능 (추후에 같은 아이디로 추천하면 안되게 변경)
+    @PatchMapping("/api/v1/user/chart-report/good/{id}")
+    public  Map<String, String> updateGoodById(@PathVariable Long id, @RequestParam(value = "value") String value) {
+        Map<String, String> result = new HashMap<>();
+        result.put("result",postService.updateGoodById(id ,value));
+        return result;
+    }
+
+    // 싫어요 기능 (추후에 같은 아이디로 추천하면 안되게 변경)
+    @PatchMapping("/api/v1/user/chart-report/bad/{id}")
+    public  Map<String, String> updateBadById(@PathVariable Long id,  @RequestParam(value = "value") String value) {
+        Map<String, String> result = new HashMap<>();
+        result.put("result", postService.updateBadById(id , value));
+        return result;
+    }
+
+    // 조회수 기능
+    @PatchMapping("/api/v1/user/chart-report/views/{id}")
+    public Map<String, String> updateIncreaseViewsById(@PathVariable Long id) {
+        Map<String, String> result = new HashMap<>();
+        result.put("result", postService.updateIncreaseViewsById(id));
+        return result;
+    }
+
+
+
 }
