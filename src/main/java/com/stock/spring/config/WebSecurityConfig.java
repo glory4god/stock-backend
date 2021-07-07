@@ -44,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter { // 2
                 .invalidateHttpSession(true) // 세션 날리기
         ;
 
-        // 여기 아래 두개 추가해서 POSTMAPPING CORS 문제 해결 됐는데 이유....가 ??!!
+//         여기 아래 두개 추가해서 POSTMAPPING CORS 문제 해결 됐는데 이유....가 ??!!
 //        http.csrf().disable();
 //        http.headers().frameOptions().disable();
     }
