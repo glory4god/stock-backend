@@ -47,22 +47,23 @@ public class PostService {
 //        return id;
 //    }
 
-    
+
     // ChartReport 관련
     // ChartReport save 
     @Transactional
-    public Long saveChartSearchRecord(ChartReportSaveRequestDto requestDto) {
+    public Long saveChartRecord(ChartReportSaveRequestDto requestDto) {
         return chartReportRepository.save(requestDto.toEntity()).getId();
     }
+
     // ChartReport 전체 List 조회 날짜 빠른순으로 정렬
     @Transactional(readOnly = true)
-    public List<ChartReportResponseDto> getChartReportList() {
+    public List<ChartReportResponseDto> getChartReportList(String sorted) {
         // Sort.by 방법으로 쿼리문 안짜도 되네 ... 굿..!!!
-        List<ChartReportResponseDto> collect = chartReportRepository.findAll(Sort.by(Sort.Direction.DESC, "modifiedDate")).stream()
+        return chartReportRepository.findAll(Sort.by(Sort.Direction.DESC, sorted)).stream()
                 .map(ChartReportResponseDto::new)
                 .collect(Collectors.toList());
-        return collect;
     }
+
     // ChartReport id로 조회
     @Transactional(readOnly = true)
     public ChartReportResponseDto getChartReportById(Long id) {
@@ -73,11 +74,11 @@ public class PostService {
     @Transactional
     public String updateGoodById(Long id, String value) {
         int good = chartReportRepository.getReportById(id).getGood();
-        if (value.equals("up")){
-            int result =  chartReportRepository.updateGoodById(id, good + 1);
+        if (value.equals("up")) {
+            int result = chartReportRepository.updateGoodById(id, good + 1);
             return "up success";
-        } else if (value.equals("down")){
-            int result =  chartReportRepository.updateGoodById(id, good - 1);
+        } else if (value.equals("down")) {
+            int result = chartReportRepository.updateGoodById(id, good - 1);
             return "down success";
         } else {
             return "only up & down query";
@@ -88,11 +89,11 @@ public class PostService {
     @Transactional
     public String updateBadById(Long id, String value) {
         int bad = chartReportRepository.getReportById(id).getBad();
-        if (value.equals("up")){
-            int result =  chartReportRepository.updateBadById(id, bad + 1);
+        if (value.equals("up")) {
+            int result = chartReportRepository.updateBadById(id, bad + 1);
             return "up success";
-        } else if (value.equals("down")){
-            int result =  chartReportRepository.updateBadById(id, bad - 1);
+        } else if (value.equals("down")) {
+            int result = chartReportRepository.updateBadById(id, bad - 1);
             return "down success";
         } else {
             return "only up & down query";
@@ -105,13 +106,28 @@ public class PostService {
         int views = chartReportRepository.getReportById(id).getViews();
         int value = chartReportRepository.updateViewsById(id, views + 1);
 
-        if(value==1){
+        if (value == 1) {
             return "up success!";
         } else {
             return "up failed!";
         }
     }
 
+    // sorted에 column을 넣으면 그 순서로 정렬 시켜줌
+    @Transactional(readOnly = true)
+    public List<ChartReportResponseDto> getSortedByCompany(String companyName, String sorted) {
+        return chartReportRepository.findByName(companyName, Sort.by(Sort.Direction.DESC, sorted)).stream()
+                .map(ChartReportResponseDto::new)
+                .collect(Collectors.toList());
+    }
 
+    @Transactional(readOnly = true)
+    public List<ChartReportResponseDto> getSortedAll(String sorted) {
+       return chartReportRepository.findAll(Sort.by(Sort.Direction.DESC, sorted)).stream()
+                .map(ChartReportResponseDto::new)
+                .collect(Collectors.toList());
+    }
 
 }
+
+
