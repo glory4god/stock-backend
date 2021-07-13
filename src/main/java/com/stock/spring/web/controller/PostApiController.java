@@ -41,7 +41,9 @@ public class PostApiController {
 
     // report 전체 List 조회
     @GetMapping("/api/v1/user/chart-report/sort-all")
-    public List<ChartReportResponseDto> getChartRecordList(@RequestParam(value = "sorted") String sorted) {
+    public List<ChartReportResponseDto> getChartRecordList(@RequestParam(value = "sorted") String sorted) throws InterruptedException {
+
+        Thread.sleep(500);
         return postService.getChartReportList(sorted);
     }
 
@@ -78,8 +80,9 @@ public class PostApiController {
 
 //     컬럼명으로 정렬된 리스트 return api
     @GetMapping("/api/v1/user/chart-report/sorted/{companyName}")
-    public List<ChartReportResponseDto> sortedBy(@PathVariable String companyName, @RequestParam(value = "sorted") String column) {
+    public List<ChartReportResponseDto> sortedBy(@PathVariable String companyName, @RequestParam(value = "sorted") String column) throws InterruptedException {
         System.out.println(column);
+        Thread.sleep(1000);
         return postService.getSortedByCompany(companyName,column);
     }
 
