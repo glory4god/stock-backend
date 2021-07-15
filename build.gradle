@@ -43,6 +43,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.json:json:20190722'
 
     testAnnotationProcessor('org.projectlombok:lombok')
     testCompile('org.springframework.boot:spring-boot-starter-test')
