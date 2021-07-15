@@ -1,0 +1,30 @@
+package com.stock.spring.kakaoOAuth;
+
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@NoArgsConstructor
+@Entity
+@Getter
+@Table(name = "kakao_user")
+public class KakaoUser {
+
+    @Id
+    @Column(name = "id",nullable = false)
+    private Long id;
+
+    @Column(name = "nickname", nullable = false)
+    private String nickname;
+
+    @Builder
+    public KakaoUser(Long id, String nickname) {
+        this.id = id;
+        this.nickname = nickname;
+    }
+}
