@@ -12,8 +12,11 @@ public class KakaoLoginController {
 
     @GetMapping("/api/v2/login/callback/kakao")
     public Object kakaoLogin(@RequestParam(value = "code") String request) {
-
         return kakaoLoginService.getAccessToken(request);
     }
 
+    @GetMapping("/api/v2/logout/user")
+    public Object kakaoLogout(@RequestParam(value = "token") String token) {
+        return kakaoLoginService.kakaoLogout(token);
+    }
 }

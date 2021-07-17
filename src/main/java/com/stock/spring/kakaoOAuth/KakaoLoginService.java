@@ -15,6 +15,7 @@ import java.util.Map;
 public class KakaoLoginService {
     private final KakaoUserRepository kakaoUserRepository;
 
+    // 카카오 로그인으로 토큰 받기
     public Object getAccessToken (String authorize_code) {
         String access_Token = "";
         String refresh_Token = "";
@@ -80,6 +81,7 @@ public class KakaoLoginService {
 
     }
 
+    // 카카오 토큰으로 유저 정보 얻기
     public KakaoUser getUserInfo(String token) {
 
         String reqURL = "https://kapi.kakao.com/v2/user/me";
@@ -133,5 +135,40 @@ public class KakaoLoginService {
         return new KakaoUser(0L, "");
     }
 
+    //카카오 로그아웃
+    public Object kakaoLogout(String token) {
+        String reqURL = "https://kapi.kakao.com/v1/user/logout";
+        try {
+            URL url = new URL(reqURL);
 
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Authorization", "Bearer " + token);
+
+            int responseCode = conn.getResponseCode();
+
+            BufferedReader br;
+            if (responseCode == 200) { // 정상 호출
+                br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            } else {  // 에러 발생
+                br = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+            }
+            //    요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+            while ((inputLine = br.readLine()) != null) {
+                response.append(inputLine);
+            }
+            br.close();
+
+            System.out.println(response);
+            return response.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Map<String, Long> failed = new HashMap<>();
+            failed.put("id", 0L);
+            return failed;
+        }
+    }
 }
