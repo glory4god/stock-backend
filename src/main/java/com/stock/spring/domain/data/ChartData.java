@@ -10,7 +10,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "data")
-public class Data {
+public class ChartData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +38,7 @@ public class Data {
     private String companyName;
 
     @Builder
-    public Data(String date, int high, int low, int open, int close, int volume, String companyName) {
+    public ChartData(String date, int high, int low, int open, int close, int volume, String companyName) {
         this.date = date;
         this.open = open;
         this.high = high;

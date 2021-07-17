@@ -1,8 +1,8 @@
 package com.stock.spring.service;
 
 import com.stock.spring.domain.company.CompanyRepository;
-import com.stock.spring.domain.data.Data;
-import com.stock.spring.domain.data.DataRepository;
+import com.stock.spring.domain.data.ChartData;
+import com.stock.spring.domain.data.ChartDataRepository;
 import com.stock.spring.web.dto.ConvertCustomDataDto;
 import com.stock.spring.web.dto.GetCompanyNameResponseDto;
 import com.stock.spring.web.dto.GetDateRangeResponseDto;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class GetService {
 
     private final CompanyRepository companyRepository;
-    private final DataRepository dataRepository;
+    private final ChartDataRepository chartDataRepository;
 
     // chart page 관련
     @Transactional(readOnly = true)
@@ -40,7 +40,7 @@ public class GetService {
 
     @Transactional(readOnly = true)
     public List<GetDateResponseDto> dataListByDate(String companyName, String startDate, String endDate) {
-        List<GetDateResponseDto> list = dataRepository.dataListByDate(companyName, startDate, endDate).stream()
+        List<GetDateResponseDto> list = chartDataRepository.dataListByDate(companyName, startDate, endDate).stream()
                 .map(GetDateResponseDto::new)
                 .collect(Collectors.toList());
         return list;
@@ -48,8 +48,8 @@ public class GetService {
 
     @Transactional(readOnly = true)
     public List<GetDateRangeResponseDto> dateRangeByCompany(String companyName) {
-        Data start = dataRepository.dateStartByCompany(companyName);
-        Data end = dataRepository.dateEndByCompany(companyName);
+        ChartData start = chartDataRepository.dateStartByCompany(companyName);
+        ChartData end = chartDataRepository.dateEndByCompany(companyName);
 
         List<GetDateRangeResponseDto> range = new ArrayList<>();
         range.add(new GetDateRangeResponseDto(start));
@@ -60,13 +60,13 @@ public class GetService {
 
     @Transactional(readOnly = true)
     public List<ConvertCustomDataDto> getCustomDataByDate(String companyName, String startDate, String endDate) {
-        List<Data> entity =  dataRepository.dataListByDate(companyName, startDate, endDate);
-        return entity.stream().map((data) -> ConvertCustomDataDto.builder()
-                .date(data.getDate())
-                .open(data.getOpen())
-                .close(data.getClose())
-                .low(data.getLow())
-                .high(data.getHigh())
+        List<ChartData> entity =  chartDataRepository.dataListByDate(companyName, startDate, endDate);
+        return entity.stream().map((chartData) -> ConvertCustomDataDto.builder()
+                .date(chartData.getDate())
+                .open(chartData.getOpen())
+                .close(chartData.getClose())
+                .low(chartData.getLow())
+                .high(chartData.getHigh())
                 .build()
         ).collect(Collectors.toList());
     }

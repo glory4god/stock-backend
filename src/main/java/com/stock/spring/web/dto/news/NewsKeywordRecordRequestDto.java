@@ -1,6 +1,6 @@
 package com.stock.spring.web.dto.news;
 
-import com.stock.spring.domain.data.NewsKeywordRecord;
+import com.stock.spring.domain.data.news.NewsKeywordRecord;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

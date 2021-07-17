@@ -1,7 +1,7 @@
 package com.stock.spring.service;
 
-import com.stock.spring.domain.data.NewsKeywordRecordRepository;
-import com.stock.spring.domain.data.NewsUrlRecordRepository;
+import com.stock.spring.domain.data.news.NewsKeywordRecordRepository;
+import com.stock.spring.domain.data.news.NewsUrlRecordRepository;
 import com.stock.spring.web.dto.news.NewsKeywordRecordRequestDto;
 import com.stock.spring.web.dto.news.NewsUrlRecordRequestDto;
 import com.stock.spring.web.dto.news.NewsUrlRecordResponseDto;

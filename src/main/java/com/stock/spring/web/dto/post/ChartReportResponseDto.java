@@ -1,6 +1,6 @@
 package com.stock.spring.web.dto.post;
 
-import com.stock.spring.domain.user.ChartReport;
+import com.stock.spring.domain.data.report.ChartReport;
 import lombok.Getter;
 
 @Getter

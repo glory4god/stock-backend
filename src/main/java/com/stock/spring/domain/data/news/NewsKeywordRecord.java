@@ -1,4 +1,4 @@
-package com.stock.spring.domain.data;
+package com.stock.spring.domain.data.news;
 
 import com.stock.spring.domain.BaseTimeCreateTImeEntity;
 import lombok.Builder;

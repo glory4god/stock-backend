@@ -1,6 +1,6 @@
 package com.stock.spring.web.dto;
 
-import com.stock.spring.domain.data.Data;
+import com.stock.spring.domain.data.ChartData;
 import lombok.Getter;
 
 @Getter
@@ -13,7 +13,7 @@ public class GetDateResponseDto {
     private int volume;
     private String companyName;
 
-    public GetDateResponseDto(Data entity) {
+    public GetDateResponseDto(ChartData entity) {
         this.date = entity.getDate();
         this.open = entity.getOpen();
         this.high = entity.getHigh();

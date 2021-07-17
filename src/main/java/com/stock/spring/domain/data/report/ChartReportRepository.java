@@ -1,4 +1,4 @@
-package com.stock.spring.domain.user;
+package com.stock.spring.domain.data.report;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;

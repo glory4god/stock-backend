@@ -1,4 +1,4 @@
-package com.stock.spring.domain.user;
+package com.stock.spring.domain.data.report;
 
 
 import com.stock.spring.domain.BaseTimeEntity;
