@@ -1,8 +1,10 @@
 package com.stock.spring.web.controller;
 
 import com.stock.spring.service.PostService;
+import com.stock.spring.web.dto.GoodOrBadDataResponseDto;
 import com.stock.spring.web.dto.post.ChartReportResponseDto;
 import com.stock.spring.web.dto.post.ChartReportSaveRequestDto;
+import com.stock.spring.web.dto.post.GoodOrBadDataRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,22 +55,26 @@ public class PostApiController {
         return postService.getChartReportById(id);
     }
 
+    // 좋아요 기능 (추후에 같은 아이디로 추천하면 안되게 변경) => 변경 완료
+    @PatchMapping("/api/v1/user/chart-report/good")
+    public GoodOrBadDataResponseDto updateGoodById(@RequestBody GoodOrBadDataRequestDto requestDto) {
+        return postService.updateGoodById(requestDto);
+    }
+    
+   // 싫어요 기능 (추후에 같은 아이디로 추천하면 안되게 변경) => 변경 완료
+    @PatchMapping("/api/v1/user/chart-report/bad")
+    public  GoodOrBadDataResponseDto updateBadById(@RequestBody GoodOrBadDataRequestDto requestDto) {
+        return postService.updateBadById(requestDto);
 
-    // 좋아요 기능 (추후에 같은 아이디로 추천하면 안되게 변경)
-    @PatchMapping("/api/v1/user/chart-report/good/{id}")
-    public  Map<String, String> updateGoodById(@PathVariable Long id, @RequestParam(value = "value") String value) {
-        Map<String, String> result = new HashMap<>();
-        result.put("result",postService.updateGoodById(id ,value));
-        return result;
     }
 
-    // 싫어요 기능 (추후에 같은 아이디로 추천하면 안되게 변경)
-    @PatchMapping("/api/v1/user/chart-report/bad/{id}")
-    public  Map<String, String> updateBadById(@PathVariable Long id,  @RequestParam(value = "value") String value) {
-        Map<String, String> result = new HashMap<>();
-        result.put("result", postService.updateBadById(id , value));
-        return result;
+    // 좋아요 눌러져있는지 여부 판단
+    @GetMapping("/api/v1/user/chart-report/press")
+    public Map<String, Boolean> pressedCheck(@RequestParam(value = "user") Long userId, @RequestParam(value = "report") Long reportId) {
+        return postService.pressedCheck(userId, reportId);
     }
+
+    
 
     // 조회수 기능
     @PatchMapping("/api/v1/user/chart-report/views/{id}")
