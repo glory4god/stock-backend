@@ -1,15 +1,19 @@
 package com.stock.spring.service;
 
-import com.stock.spring.domain.user.ChartReportRepository;
+import com.stock.spring.domain.data.report.*;
 import com.stock.spring.domain.user.UserRepository;
+import com.stock.spring.web.dto.GoodOrBadDataResponseDto;
 import com.stock.spring.web.dto.post.ChartReportResponseDto;
 import com.stock.spring.web.dto.post.ChartReportSaveRequestDto;
+import com.stock.spring.web.dto.post.GoodOrBadDataRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -19,6 +23,8 @@ public class PostService {
     //    private final ReportRepository reportRepository;
     private final ChartReportRepository chartReportRepository;
     private final UserRepository userRepository;
+    private final GoodDataRepository goodDataRepository;
+    private final BadDataRepository badDataRepository;
 
     // report 관련 (여기 부분 애매 다르게 변경할 필요있음)
 //    @Transactional
@@ -72,32 +78,62 @@ public class PostService {
 
     // 좋아요 up기능(추후에 같은 username 중복 안되게 만들기)
     @Transactional
-    public String updateGoodById(Long id, String value) {
-        int good = chartReportRepository.getReportById(id).getGood();
-        if (value.equals("up")) {
-            int result = chartReportRepository.updateGoodById(id, good + 1);
-            return "up success";
-        } else if (value.equals("down")) {
-            int result = chartReportRepository.updateGoodById(id, good - 1);
-            return "down success";
+    public GoodOrBadDataResponseDto updateGoodById(GoodOrBadDataRequestDto requestDto) {
+        Long reportId = requestDto.getReportId();
+        GoodData entity = goodDataRepository.findByUserIdAndReportId(requestDto.getUserId(), requestDto.getReportId());
+
+        int good = chartReportRepository.getReportById(reportId).getGood();
+
+        if (entity == null) {
+            chartReportRepository.updateGoodById(reportId, good + 1);
+            GoodData res = GoodData.builder()
+                    .userId(requestDto.getUserId())
+                    .reportId(reportId)
+                    .build();
+            goodDataRepository.save(res);
+            return new GoodOrBadDataResponseDto(res.getUserId(), res.getReportId());
+
         } else {
-            return "only up & down query";
+            chartReportRepository.updateGoodById(reportId, good - 1);
+            goodDataRepository.deleteById(entity.getId());
+            return new GoodOrBadDataResponseDto(0L, 0L);
         }
     }
 
     // 싫어요 up기능(추후에 같은 username 중복 안되게 만들기)
     @Transactional
-    public String updateBadById(Long id, String value) {
-        int bad = chartReportRepository.getReportById(id).getBad();
-        if (value.equals("up")) {
-            int result = chartReportRepository.updateBadById(id, bad + 1);
-            return "up success";
-        } else if (value.equals("down")) {
-            int result = chartReportRepository.updateBadById(id, bad - 1);
-            return "down success";
+    public GoodOrBadDataResponseDto updateBadById(GoodOrBadDataRequestDto requestDto) {
+        Long reportId = requestDto.getReportId();
+        BadData entity = badDataRepository.findByUserIdAndReportId(requestDto.getUserId(), requestDto.getReportId());
+
+        int good = chartReportRepository.getReportById(reportId).getGood();
+
+        if (entity == null) {
+            chartReportRepository.updateGoodById(reportId, good + 1);
+            BadData res = BadData.builder()
+                    .userId(requestDto.getUserId())
+                    .reportId(reportId)
+                    .build();
+            badDataRepository.save(res);
+            return new GoodOrBadDataResponseDto(res.getUserId(), res.getReportId());
+
         } else {
-            return "only up & down query";
+            chartReportRepository.updateGoodById(reportId, good - 1);
+            badDataRepository.deleteById(entity.getId());
+            return new GoodOrBadDataResponseDto(0L, 0L);
         }
+    }
+
+    // 좋아요 or 싫어요 눌러져있는지 체크
+    @Transactional
+    public Map<String, Boolean> pressedCheck(Long userId, Long reportId) {
+        boolean good = goodDataRepository.existsByUserIdAndReportId(userId, reportId);
+        boolean bad = badDataRepository.existsByUserIdAndReportId(userId, reportId);
+
+        Map<String, Boolean> result = new HashMap<>();
+        result.put("good", good);
+        result.put("bad", bad);
+        return result;
     }
 
     // 조회수 up
@@ -123,10 +159,11 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public List<ChartReportResponseDto> getSortedAll(String sorted) {
-       return chartReportRepository.findAll(Sort.by(Sort.Direction.DESC, sorted)).stream()
+        return chartReportRepository.findAll(Sort.by(Sort.Direction.DESC, sorted)).stream()
                 .map(ChartReportResponseDto::new)
                 .collect(Collectors.toList());
     }
+
 
 }
 
