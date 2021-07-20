@@ -67,7 +67,7 @@ public class KakaoLoginService {
                 failed.put("result", "Failed to get user data!");
                 return failed;
             } else {
-                return new KakaoUserResponseDto(result.getId(), result.getNickname(), token);
+                return new KakaoUserResponseDto(result.getId(), result.getNickname(), result.getImage(), token);
             }
 
         } catch (IOException e) {
@@ -132,7 +132,7 @@ public class KakaoLoginService {
             failed.put("result", "Failed to get user information");
             System.out.println(failed);
         }
-        return new KakaoUser(0L, "");
+        return new KakaoUser(0L, "","");
     }
 
     //카카오 로그아웃
