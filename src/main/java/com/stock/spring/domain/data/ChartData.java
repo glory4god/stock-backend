@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name = "data")
+@Table(name = "chart_data")
 public class ChartData {
 
     @Id
