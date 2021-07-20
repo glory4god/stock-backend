@@ -23,9 +23,13 @@ public class KakaoUser {
     @Column(name = "nickname", nullable = false)
     private String nickname;
 
+    @Column(name = "image")
+    private String image;
+
     @Builder
-    public KakaoUser(Long id, String nickname) {
+    public KakaoUser(Long id, String nickname, String image) {
         this.id = id;
         this.nickname = nickname;
+        this.image = image;
     }
 }
