@@ -18,7 +18,7 @@ public class ChartReport extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "username", nullable = false)
     private String username;
 
     @Column(name = "company_name", nullable = false)
