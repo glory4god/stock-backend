@@ -1,10 +1,7 @@
 package com.stock.spring.web.controller;
 
 import com.stock.spring.service.PostService;
-import com.stock.spring.web.dto.post.GoodOrBadDataResponseDto;
-import com.stock.spring.web.dto.post.ChartReportResponseDto;
-import com.stock.spring.web.dto.post.ChartReportSaveRequestDto;
-import com.stock.spring.web.dto.post.GoodOrBadDataRequestDto;
+import com.stock.spring.web.dto.post.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,8 +48,8 @@ public class PostApiController {
 
     //report search 조건으로 조회
     @GetMapping("api/v1/user/chart-report/search")
-    public Object searchChartReport(@RequestParam(value = "condition") String condition, @RequestParam(value = "value") String value, @RequestParam(value ="sorted") String sorted) {
-        return postService.searchChartReportByUsername(condition, value,sorted);
+    public Object searchChartReport(@RequestParam(value = "condition") String condition, @RequestParam(value = "value") String value, @RequestParam(value = "sorted") String sorted) {
+        return postService.searchChartReportByUsername(condition, value, sorted);
     }
 
 
@@ -71,22 +68,27 @@ public class PostApiController {
     }
 
     // 좋아요 기능 (추후에 같은 아이디로 추천하면 안되게 변경) => 변경 완료
-    @PatchMapping("/api/v1/user/chart-report/patch/{value}")
-    public GoodOrBadDataResponseDto updateGoodById(@PathVariable String value, @RequestBody GoodOrBadDataRequestDto requestDto) {
-        return postService.updateGoodById(value, requestDto);
+    @PatchMapping("/api/v1/user/board/patch/{dbName}/{value}")
+    public GoodOrBadDataResponseDto updateGoodById(@PathVariable String dbName,@PathVariable String value, @RequestBody GoodOrBadDataRequestDto requestDto) {
+        return postService.updateGoodById(dbName,value, requestDto);
     }
 
     // 좋아요 눌러져있는지 여부 판단
     @GetMapping("/api/v1/user/chart-report/press")
     public Map<String, Boolean> pressedCheck(@RequestParam(value = "user") Long userId, @RequestParam(value = "report") Long reportId) {
-        return postService.pressedCheck(userId, reportId);
+        return postService.pressedCheck(userId, reportId, "chart");
+    }
+
+    @GetMapping("/api/v1/freeboard/pressed")
+    public boolean freeBoardPressedCheck(@RequestParam(value = "user") Long userId, @RequestParam(value = "board") Long boardId) {
+        return postService.freeBoardPressedCheck(userId, boardId, "free");
     }
 
     // 조회수 기능
-    @PatchMapping("/api/v1/user/chart-report/views/{id}")
-    public Map<String, String> updateIncreaseViewsById(@PathVariable Long id) {
+    @PatchMapping("/api/v1/board/views/{dbName}/{id}")
+    public Map<String, String> updateIncreaseViewsById(@PathVariable String dbName,@PathVariable Long id) {
         Map<String, String> result = new HashMap<>();
-        result.put("result", postService.updateIncreaseViewsById(id));
+        result.put("result", postService.updateIncreaseViewsById(dbName, id));
         return result;
     }
 
@@ -98,10 +100,24 @@ public class PostApiController {
         return postService.getSortedByCompany(companyName, column);
     }
 
-    @DeleteMapping("api/v1/user/chart-report/post/{reportId}/{userId}")
+    @DeleteMapping("/api/v1/user/chart-report/post/{reportId}/{userId}")
     public String deleteByUserId(@PathVariable Long reportId, @PathVariable Long userId) throws InterruptedException {
         Thread.sleep(1000);
         return postService.deleteByUserId(reportId, userId);
     }
 
+    @PostMapping("/api/v1/freeboard/post")
+    public Long saveFreeBoard(@RequestBody FreeBoardSaveRequestDto requestDto) {
+        return postService.saveFreeBoard(requestDto);
+    }
+
+    @GetMapping("/api/v1/freeboard")
+    public List<FreeBoardReponseDto> getFreeBoardFindAll(@RequestParam(value = "sorted") String sorted) {
+        return postService.getFreeBoardFindAll(sorted);
+    }
+
+    @GetMapping("/api/v1/freeboard/{id}")
+    public FreeBoardReponseDto getFreeBoardfindById(@PathVariable Long id) {
+        return postService.getFreeBoardFindById(id);
+    }
 }
