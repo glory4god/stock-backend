@@ -4,8 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface GoodDataRepository extends JpaRepository<GoodData, Long> {
 
-    boolean existsByUserIdAndReportId(Long userId, Long reportId);
+    boolean existsByUserIdAndReportIdAndDbName(Long userId, Long reportId, String dbName);
 
-    GoodData findByUserIdAndReportId(Long userId, Long reportId);
+    GoodData findByUserIdAndReportIdAndDbName(Long userId, Long reportId,String dbName);
 
 }

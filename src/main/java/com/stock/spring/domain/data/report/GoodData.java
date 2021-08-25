@@ -22,10 +22,14 @@ public class GoodData {
     @Column(name = "report_id")
     private Long reportId;
 
+    @Column(name = "db_name")
+    private String dbName;
+
     @Builder
-    public GoodData(Long userId, Long reportId) {
+    public GoodData(Long userId, Long reportId, String dbName) {
         this.userId = userId;
         this.reportId = reportId;
+        this.dbName = dbName;
     }
 
 }
