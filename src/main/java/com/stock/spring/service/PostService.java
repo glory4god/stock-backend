@@ -1,12 +1,10 @@
 package com.stock.spring.service;
 
+import com.stock.spring.domain.data.freeBoard.FreeBoardRepository;
 import com.stock.spring.domain.data.report.*;
 import com.stock.spring.kakaoOAuth.KakaoUser;
 import com.stock.spring.kakaoOAuth.KakaoUserRepository;
-import com.stock.spring.web.dto.post.ChartReportResponseDto;
-import com.stock.spring.web.dto.post.ChartReportSaveRequestDto;
-import com.stock.spring.web.dto.post.GoodOrBadDataRequestDto;
-import com.stock.spring.web.dto.post.GoodOrBadDataResponseDto;
+import com.stock.spring.web.dto.post.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -26,6 +24,7 @@ public class PostService {
     private final GoodDataRepository goodDataRepository;
     private final BadDataRepository badDataRepository;
     private final KakaoUserRepository kakaoUserRepository;
+    private final FreeBoardRepository freeBoardRepository;
 
     // report 관련 (여기 부분 애매 다르게 변경할 필요있음)
 //    @Transactional
@@ -89,10 +88,10 @@ public class PostService {
 
     //     ChartReport 종목별, 제목별, 유저이름 검색으로 조회 기능
     @Transactional(readOnly = true)
-    public Object searchChartReportByUsername(String condition,String value, String sorted) {
+    public Object searchChartReportByUsername(String condition, String value, String sorted) {
         System.out.println(sorted);
-        if(condition.equals("user")){
-            return chartReportRepository.searchListByUsername(value,Sort.by(Sort.Direction.DESC,sorted)).stream()
+        if (condition.equals("user")) {
+            return chartReportRepository.searchListByUsername(value, Sort.by(Sort.Direction.DESC, sorted)).stream()
                     .map(ChartReportResponseDto::new)
                     .collect(Collectors.toList());
         } else if (condition.equals("company")) {
@@ -100,7 +99,7 @@ public class PostService {
                     .map(ChartReportResponseDto::new)
                     .collect(Collectors.toList());
         } else if (condition.equals("title+content")) {
-            return chartReportRepository.searchListByTitleAndContent(value,Sort.by(Sort.Direction.DESC,sorted)).stream()
+            return chartReportRepository.searchListByTitleAndContent(value, Sort.by(Sort.Direction.DESC, sorted)).stream()
                     .map(ChartReportResponseDto::new)
                     .collect(Collectors.toList());
         } else {
@@ -108,76 +107,99 @@ public class PostService {
             failed.put("failed", "condition is wrong");
             return failed;
         }
-
-
     }
 
 
-        // 좋아요 싫어요 up down기능(추후에 같은 username 중복 안되게 만들기) => 변경함
+    // 좋아요 싫어요 up down기능(추후에 같은 username 중복 안되게 만들기) => 변경함
     @Transactional
-    public GoodOrBadDataResponseDto updateGoodById(String value, GoodOrBadDataRequestDto requestDto) {
+    public GoodOrBadDataResponseDto updateGoodById(String dbName,String value, GoodOrBadDataRequestDto requestDto) {
 
-        Long reportId = requestDto.getReportId();
-        GoodData goodEntity = goodDataRepository.findByUserIdAndReportId(requestDto.getUserId(), requestDto.getReportId());
-        BadData badEntity = badDataRepository.findByUserIdAndReportId(requestDto.getUserId(), requestDto.getReportId());
+        if (dbName.equals("chart")){
+            Long reportId = requestDto.getReportId();
+            GoodData goodEntity = goodDataRepository.findByUserIdAndReportIdAndDbName(requestDto.getUserId(), requestDto.getReportId(),dbName);
+            BadData badEntity = badDataRepository.findByUserIdAndReportId(requestDto.getUserId(), requestDto.getReportId());
 
-        int good = chartReportRepository.getReportById(reportId).getGood();
-        int bad = chartReportRepository.getReportById(reportId).getBad();
+            int good = chartReportRepository.getReportById(reportId).getGood();
+            int bad = chartReportRepository.getReportById(reportId).getBad();
 
-        if (goodEntity == null && badEntity == null) {
-            if (value.equals("good")) {
-                chartReportRepository.updateGoodById(reportId, good + 1);
+            if (goodEntity == null && badEntity == null) {
+                if (value.equals("good")) {
+                    chartReportRepository.updateGoodById(reportId, good + 1);
+                    GoodData res = GoodData.builder()
+                            .userId(requestDto.getUserId())
+                            .reportId(reportId)
+                            .dbName(dbName)
+                            .build();
+                    goodDataRepository.save(res);
+                    return new GoodOrBadDataResponseDto(res.getUserId(), res.getReportId());
+
+                } else {
+                    chartReportRepository.updateBadById(reportId, bad + 1);
+                    BadData res = BadData.builder()
+                            .userId(requestDto.getUserId())
+                            .reportId(reportId)
+                            .build();
+                    badDataRepository.save(res);
+                    return new GoodOrBadDataResponseDto(res.getUserId(), res.getReportId());
+                }
+            } else if (goodEntity == null) {
+                if (value.equals("good")) {
+                    chartReportRepository.updateBadById(reportId, bad - 1);
+                    chartReportRepository.updateGoodById(reportId, good + 1);
+                    GoodData res = GoodData.builder()
+                            .userId(requestDto.getUserId())
+                            .reportId(reportId)
+                            .dbName(dbName)
+                            .build();
+                    goodDataRepository.save(res);
+                    badDataRepository.deleteById(badEntity.getId());
+                    return new GoodOrBadDataResponseDto(res.getUserId(), res.getReportId());
+                } else {
+                    chartReportRepository.updateBadById(reportId, bad - 1);
+                    badDataRepository.deleteById(badEntity.getId());
+                    return new GoodOrBadDataResponseDto(0L, 0L);
+                }
+            } else if (badEntity == null) {
+                if (value.equals("good")) {
+                    chartReportRepository.updateGoodById(reportId, good - 1);
+                    goodDataRepository.deleteById(goodEntity.getId());
+                    return new GoodOrBadDataResponseDto(0L, 0L);
+                } else {
+                    chartReportRepository.updateBadById(reportId, bad + 1);
+                    chartReportRepository.updateGoodById(reportId, good - 1);
+                    BadData res = BadData.builder()
+                            .userId(requestDto.getUserId())
+                            .reportId(reportId)
+                            .build();
+                    badDataRepository.save(res);
+                    goodDataRepository.deleteById(goodEntity.getId());
+                    return new GoodOrBadDataResponseDto(res.getUserId(), res.getReportId());
+                }
+            } else {
+                // 둘 다 눌러진 경우는 없을테지만 어케처리할지 고민
+                return new GoodOrBadDataResponseDto(0L, 0L);
+            }
+        }else {
+            Long boardId = requestDto.getReportId();
+            GoodData goodEntity = goodDataRepository.findByUserIdAndReportIdAndDbName(requestDto.getUserId(), requestDto.getReportId(),dbName);
+
+            int good = freeBoardRepository.getFreeBoardById(boardId).getGood();
+
+            if (goodEntity == null) {
+                freeBoardRepository.updateGoodById(boardId, good + 1);
                 GoodData res = GoodData.builder()
                         .userId(requestDto.getUserId())
-                        .reportId(reportId)
+                        .reportId(boardId)
+                        .dbName(dbName)
                         .build();
                 goodDataRepository.save(res);
                 return new GoodOrBadDataResponseDto(res.getUserId(), res.getReportId());
+            } else {
+                freeBoardRepository.updateGoodById(boardId, good - 1);
+                goodDataRepository.deleteById(goodEntity.getId());
 
-            } else {
-                chartReportRepository.updateBadById(reportId, bad + 1);
-                BadData res = BadData.builder()
-                        .userId(requestDto.getUserId())
-                        .reportId(reportId)
-                        .build();
-                badDataRepository.save(res);
-                return new GoodOrBadDataResponseDto(res.getUserId(), res.getReportId());
-            }
-        } else if (goodEntity == null) {
-            if (value.equals("good")) {
-                chartReportRepository.updateBadById(reportId, bad - 1);
-                chartReportRepository.updateGoodById(reportId, good + 1);
-                GoodData res = GoodData.builder()
-                        .userId(requestDto.getUserId())
-                        .reportId(reportId)
-                        .build();
-                goodDataRepository.save(res);
-                badDataRepository.deleteById(badEntity.getId());
-                return new GoodOrBadDataResponseDto(res.getUserId(), res.getReportId());
-            } else {
-                chartReportRepository.updateBadById(reportId, bad - 1);
-                badDataRepository.deleteById(badEntity.getId());
                 return new GoodOrBadDataResponseDto(0L, 0L);
             }
-        } else if (badEntity == null) {
-            if (value.equals("good")) {
-                chartReportRepository.updateGoodById(reportId, good - 1);
-                goodDataRepository.deleteById(goodEntity.getId());
-                return new GoodOrBadDataResponseDto(0L, 0L);
-            } else {
-                chartReportRepository.updateBadById(reportId, bad + 1);
-                chartReportRepository.updateGoodById(reportId, good - 1);
-                BadData res = BadData.builder()
-                        .userId(requestDto.getUserId())
-                        .reportId(reportId)
-                        .build();
-                badDataRepository.save(res);
-                goodDataRepository.deleteById(goodEntity.getId());
-                return new GoodOrBadDataResponseDto(res.getUserId(), res.getReportId());
-            }
-        } else {
-            // 둘 다 눌러진 경우는 없을테지만 어케처리할지 고민
-            return new GoodOrBadDataResponseDto(0L, 0L);
         }
 
     }
@@ -219,9 +241,9 @@ public class PostService {
 //    }
 
     // 좋아요 or 싫어요 눌러져있는지 체크
-    @Transactional
-    public Map<String, Boolean> pressedCheck(Long userId, Long reportId) {
-        boolean good = goodDataRepository.existsByUserIdAndReportId(userId, reportId);
+    @Transactional(readOnly = true)
+    public Map<String, Boolean> pressedCheck(Long userId, Long reportId, String dbName) {
+        boolean good = goodDataRepository.existsByUserIdAndReportIdAndDbName(userId, reportId,dbName);
         boolean bad = badDataRepository.existsByUserIdAndReportId(userId, reportId);
 
         Map<String, Boolean> result = new HashMap<>();
@@ -230,17 +252,35 @@ public class PostService {
         return result;
     }
 
+    @Transactional(readOnly = true)
+    public boolean freeBoardPressedCheck(Long userId, Long boardId, String dbName) {
+        return goodDataRepository.existsByUserIdAndReportIdAndDbName(userId, boardId, dbName);
+
+    }
+
     // 조회수 up
     @Transactional
-    public String updateIncreaseViewsById(Long id) {
-        int views = chartReportRepository.getReportById(id).getViews();
-        int value = chartReportRepository.updateViewsById(id, views + 1);
+    public String updateIncreaseViewsById(String dbName,Long id) {
+        if(dbName.equals("chart")){
+            int views = chartReportRepository.getReportById(id).getViews();
+            int value = chartReportRepository.updateViewsById(id, views + 1);
 
-        if (value == 1) {
-            return "up success!";
-        } else {
-            return "up failed!";
+            if (value == 1) {
+                return "up success!";
+            } else {
+                return "up failed!";
+            }
+        }else {
+            int views = freeBoardRepository.getFreeBoardById(id).getViews();
+            int value = freeBoardRepository.updateViewsById(id, views + 1);
+
+            if (value == 1) {
+                return "up success!";
+            } else {
+                return "up failed!";
+            }
         }
+
     }
 
     // sorted에 column을 넣으면 그 순서로 정렬 시켜줌
@@ -272,7 +312,22 @@ public class PostService {
         }
     }
 
+    @Transactional
+    public Long saveFreeBoard(FreeBoardSaveRequestDto requestDto) {
+        return freeBoardRepository.save(requestDto.toEntity()).getId();
+    }
 
+    @Transactional(readOnly = true)
+    public List<FreeBoardReponseDto> getFreeBoardFindAll(String sorted) {
+        return freeBoardRepository.findAll(Sort.by(Sort.Direction.DESC, sorted)).stream()
+                .map(FreeBoardReponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public FreeBoardReponseDto getFreeBoardFindById(Long id) {
+        return new FreeBoardReponseDto(freeBoardRepository.getFreeBoardById(id));
+    }
 }
 
 
