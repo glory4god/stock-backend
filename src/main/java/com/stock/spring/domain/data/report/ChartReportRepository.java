@@ -39,7 +39,7 @@ public interface ChartReportRepository extends JpaRepository<ChartReport, Long> 
     @Query("SELECT c FROM ChartReport c WHERE companyName LIKE %?1%")
     List<ChartReport> searchListByCompanyName(String companyName, Sort sort);
 
-    @Query("SELECT c FROM ChartReport c WHERE (title LIKE %?1% AND content LIKE %?1%)")
+    @Query("SELECT c FROM ChartReport c WHERE (c.title LIKE %?1% AND c.content LIKE %?1%)")
     List<ChartReport> searchListByTitleAndContent(String value, Sort sort);
 
 

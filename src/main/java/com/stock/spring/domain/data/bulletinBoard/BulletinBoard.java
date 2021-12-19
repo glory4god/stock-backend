@@ -1,4 +1,4 @@
-package com.stock.spring.domain.data.freeBoard;
+package com.stock.spring.domain.data.bulletinBoard;
 
 import com.stock.spring.domain.BaseTimeEntity;
 import lombok.Builder;
@@ -10,8 +10,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Getter
-@Table(name = "free_board")
-public class FreeBoard extends BaseTimeEntity {
+@Table(name = "bulletin_board")
+public class BulletinBoard extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +33,7 @@ public class FreeBoard extends BaseTimeEntity {
     private int views;
 
     @Builder
-    public FreeBoard(Long userId, String title, String content, int good, int views) {
+    public BulletinBoard(Long userId, String title, String content, int good, int views) {
         this.userId = userId;
         this.title = title;
         this.content = content;

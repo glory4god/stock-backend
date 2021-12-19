@@ -171,4 +171,13 @@ public class KakaoLoginService {
             return failed;
         }
     }
+
+    public Long kakaoUserCheck(String nickname) {
+        KakaoUser user = kakaoUserRepository.findByNickname(nickname);
+        if (user == null) {
+            return 0L;
+        } else {
+            return user.getId();
+        }
+    }
 }

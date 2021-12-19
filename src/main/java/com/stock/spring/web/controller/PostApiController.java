@@ -47,9 +47,9 @@ public class PostApiController {
     }
 
     //report search 조건으로 조회
-    @GetMapping("api/v1/user/chart-report/search")
-    public Object searchChartReport(@RequestParam(value = "condition") String condition, @RequestParam(value = "value") String value, @RequestParam(value = "sorted") String sorted) {
-        return postService.searchChartReportByUsername(condition, value, sorted);
+    @GetMapping("api/v1/board/search")
+    public Object searchChartReport(@RequestParam(value = "dbname") String dbName, @RequestParam(value = "column") String column, @RequestParam(value = "value") String value, @RequestParam(value = "sorted") String sorted) {
+        return postService.searchChartReportByUsername(dbName, column, value, sorted);
     }
 
 
@@ -69,8 +69,8 @@ public class PostApiController {
 
     // 좋아요 기능 (추후에 같은 아이디로 추천하면 안되게 변경) => 변경 완료
     @PatchMapping("/api/v1/user/board/patch/{dbName}/{value}")
-    public GoodOrBadDataResponseDto updateGoodById(@PathVariable String dbName,@PathVariable String value, @RequestBody GoodOrBadDataRequestDto requestDto) {
-        return postService.updateGoodById(dbName,value, requestDto);
+    public GoodOrBadDataResponseDto updateGoodById(@PathVariable String dbName, @PathVariable String value, @RequestBody GoodOrBadDataRequestDto requestDto) {
+        return postService.updateGoodById(dbName, value, requestDto);
     }
 
     // 좋아요 눌러져있는지 여부 판단
@@ -79,14 +79,14 @@ public class PostApiController {
         return postService.pressedCheck(userId, reportId, "chart");
     }
 
-    @GetMapping("/api/v1/freeboard/pressed")
-    public boolean freeBoardPressedCheck(@RequestParam(value = "user") Long userId, @RequestParam(value = "board") Long boardId) {
-        return postService.freeBoardPressedCheck(userId, boardId, "free");
+    @GetMapping("/api/v1/bulletinboard/pressed")
+    public boolean bulletinBoardPressedCheck(@RequestParam(value = "user") Long userId, @RequestParam(value = "board") Long boardId) {
+        return postService.bulletinBoardPressedCheck(userId, boardId, "bulletin");
     }
 
     // 조회수 기능
     @PatchMapping("/api/v1/board/views/{dbName}/{id}")
-    public Map<String, String> updateIncreaseViewsById(@PathVariable String dbName,@PathVariable Long id) {
+    public Map<String, String> updateIncreaseViewsById(@PathVariable String dbName, @PathVariable Long id) {
         Map<String, String> result = new HashMap<>();
         result.put("result", postService.updateIncreaseViewsById(dbName, id));
         return result;
@@ -106,18 +106,32 @@ public class PostApiController {
         return postService.deleteByUserId(reportId, userId);
     }
 
-    @PostMapping("/api/v1/freeboard/post")
-    public Long saveFreeBoard(@RequestBody FreeBoardSaveRequestDto requestDto) {
-        return postService.saveFreeBoard(requestDto);
+    @PostMapping("/api/v1/bulletinboard/post")
+    public Long saveBulletinBoard(@RequestBody BulletinBoardSaveRequestDto requestDto) {
+        return postService.saveBulletinBoard(requestDto);
     }
 
-    @GetMapping("/api/v1/freeboard")
-    public List<FreeBoardReponseDto> getFreeBoardFindAll(@RequestParam(value = "sorted") String sorted) {
-        return postService.getFreeBoardFindAll(sorted);
+    @GetMapping("/api/v1/bulletinboard")
+    public List<BulletinBoardReponseDto> getBulletinBoardFindAll(@RequestParam(value = "sorted") String sorted) throws InterruptedException {
+        Thread.sleep(1000);
+        return postService.getBulletinBoardFindAll(sorted);
     }
 
-    @GetMapping("/api/v1/freeboard/{id}")
-    public FreeBoardReponseDto getFreeBoardfindById(@PathVariable Long id) {
-        return postService.getFreeBoardFindById(id);
+    @GetMapping("/api/v1/bulletinboard/{id}")
+    public BulletinBoardReponseDto getBulletinBoardfindById(@PathVariable Long id) {
+        return postService.getBulletinBoardFindById(id);
     }
+
+    @DeleteMapping("/api/v1/bulletinboard/post/{boardId}/{userId}")
+    public String deleteBulletinByUserId(@PathVariable Long boardId, @PathVariable Long userId) throws InterruptedException {
+        Thread.sleep(1000);
+        return postService.deleteBulletinByUserId(boardId, userId);
+    }
+
+    @PatchMapping("/api/v1/bulletinboard/update/{boardId}")
+    public String updateBulletinBoard(@PathVariable Long boardId, @RequestBody BulletinBoardSaveRequestDto requestDto) throws InterruptedException {
+        Thread.sleep(1000);
+        return postService.updateBulletinBoard(boardId, requestDto.getTitle(), requestDto.getContent());
+    }
+
 }

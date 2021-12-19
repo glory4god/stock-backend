@@ -1,12 +1,12 @@
 package com.stock.spring.web.dto.post;
 
-import com.stock.spring.domain.data.freeBoard.FreeBoard;
+import com.stock.spring.domain.data.bulletinBoard.BulletinBoard;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Getter
-public class FreeBoardReponseDto {
+public class BulletinBoardReponseDto {
 
     private Long id;
     private String username;
@@ -17,7 +17,7 @@ public class FreeBoardReponseDto {
     private int good;
     private int views;
 
-    public FreeBoardReponseDto(FreeBoard entity, String nickname) {
+    public BulletinBoardReponseDto(BulletinBoard entity, String nickname) {
         this.id = entity.getId();
         this.username = nickname;
         this.title = entity.getTitle();

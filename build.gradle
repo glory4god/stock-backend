@@ -48,3 +48,44 @@ dependencies {
     testAnnotationProcessor('org.projectlombok:lombok')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
+
+def frontendDir = "$projectDir/frontend"
+
+sourceSets {
+    main {
+        resources {
+                    srcDirs = ["$projectDir/src/main/resources"]
+                }
+    }
+}
+
+processResources {
+    dependsOn "copyReactBuildFiles"
+}
+
+task installReact(type: Exec) {
+    workingDir "$frontendDir"
+    inputs.dir "$frontendDir"
+    group = BasePlugin.BUILD_GROUP
+    if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+        commandLine "npm.cmd", "audit", "fix" commandLine 'npm.cmd', 'install'
+    } else { commandLine "npm", "audit", "fix" commandLine 'npm', 'install' }
+}
+
+task buildReact(type: Exec) {
+    dependsOn "installReact"
+    workingDir "$frontendDir"
+    inputs.dir "$frontendDir"
+    group = BasePlugin.BUILD_GROUP
+    if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+        commandLine "npm.cmd", "run", "build"
+    }else {
+        commandLine "npm", "run", "build"
+    }
+}
+
+task copyReactBuildFiles(type: Copy) {
+    dependsOn "buildReact"
+    from "$frontendDir/build"
+    into "$projectDir/src/main/resources/static"
+}

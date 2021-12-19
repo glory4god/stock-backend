@@ -1,6 +1,7 @@
 package com.stock.spring.service;
 
-import com.stock.spring.domain.data.freeBoard.FreeBoardRepository;
+import com.stock.spring.domain.data.bulletinBoard.BulletinBoard;
+import com.stock.spring.domain.data.bulletinBoard.BulletinBoardRepository;
 import com.stock.spring.domain.data.report.*;
 import com.stock.spring.kakaoOAuth.KakaoUser;
 import com.stock.spring.kakaoOAuth.KakaoUserRepository;
@@ -24,7 +25,7 @@ public class PostService {
     private final GoodDataRepository goodDataRepository;
     private final BadDataRepository badDataRepository;
     private final KakaoUserRepository kakaoUserRepository;
-    private final FreeBoardRepository freeBoardRepository;
+    private final BulletinBoardRepository bulletinBoardRepository;
 
     // report 관련 (여기 부분 애매 다르게 변경할 필요있음)
 //    @Transactional
@@ -88,35 +89,56 @@ public class PostService {
 
     //     ChartReport 종목별, 제목별, 유저이름 검색으로 조회 기능
     @Transactional(readOnly = true)
-    public Object searchChartReportByUsername(String condition, String value, String sorted) {
+    public Object searchChartReportByUsername(String dbName, String column, String value, String sorted) {
         System.out.println(sorted);
-        if (condition.equals("user")) {
-            return chartReportRepository.searchListByUsername(value, Sort.by(Sort.Direction.DESC, sorted)).stream()
-                    .map(ChartReportResponseDto::new)
-                    .collect(Collectors.toList());
-        } else if (condition.equals("company")) {
-            return chartReportRepository.searchListByCompanyName(value, Sort.by(Sort.Direction.DESC, sorted)).stream()
-                    .map(ChartReportResponseDto::new)
-                    .collect(Collectors.toList());
-        } else if (condition.equals("title+content")) {
-            return chartReportRepository.searchListByTitleAndContent(value, Sort.by(Sort.Direction.DESC, sorted)).stream()
-                    .map(ChartReportResponseDto::new)
-                    .collect(Collectors.toList());
+        if (dbName.equals("chart")) {
+            if (column.equals("user")) {
+                return chartReportRepository.searchListByUsername(value, Sort.by(Sort.Direction.DESC, sorted)).stream()
+                        .map(ChartReportResponseDto::new)
+                        .collect(Collectors.toList());
+            } else if (column.equals("company")) {
+                return chartReportRepository.searchListByCompanyName(value, Sort.by(Sort.Direction.DESC, sorted)).stream()
+                        .map(ChartReportResponseDto::new)
+                        .collect(Collectors.toList());
+            } else if (column.equals("content")) {
+                return chartReportRepository.searchListByTitleAndContent(value, Sort.by(Sort.Direction.DESC, sorted)).stream()
+                        .map(ChartReportResponseDto::new)
+                        .collect(Collectors.toList());
+            } else {
+                Map<String, String> failed = new HashMap<>();
+                failed.put("failed", "condition is wrong");
+                return failed;
+            }
         } else {
-            Map<String, String> failed = new HashMap<>();
-            failed.put("failed", "condition is wrong");
-            return failed;
+            if (column.equals("title")) {
+                return chartReportRepository.searchListByUsername(value, Sort.by(Sort.Direction.DESC, sorted)).stream()
+                        .map(ChartReportResponseDto::new)
+                        .collect(Collectors.toList());
+            } else if (column.equals("content")) {
+                return chartReportRepository.searchListByCompanyName(value, Sort.by(Sort.Direction.DESC, sorted)).stream()
+                        .map(ChartReportResponseDto::new)
+                        .collect(Collectors.toList());
+            } else if (column.equals("title+content")) {
+                return chartReportRepository.searchListByTitleAndContent(value, Sort.by(Sort.Direction.DESC, sorted)).stream()
+                        .map(ChartReportResponseDto::new)
+                        .collect(Collectors.toList());
+            } else {
+                Map<String, String> failed = new HashMap<>();
+                failed.put("failed", "condition is wrong");
+                return failed;
+            }
         }
+
     }
 
 
     // 좋아요 싫어요 up down기능(추후에 같은 username 중복 안되게 만들기) => 변경함
     @Transactional
-    public GoodOrBadDataResponseDto updateGoodById(String dbName,String value, GoodOrBadDataRequestDto requestDto) {
+    public GoodOrBadDataResponseDto updateGoodById(String dbName, String value, GoodOrBadDataRequestDto requestDto) {
 
-        if (dbName.equals("chart")){
+        if (dbName.equals("chart")) {
             Long reportId = requestDto.getReportId();
-            GoodData goodEntity = goodDataRepository.findByUserIdAndReportIdAndDbName(requestDto.getUserId(), requestDto.getReportId(),dbName);
+            GoodData goodEntity = goodDataRepository.findByUserIdAndReportIdAndDbName(requestDto.getUserId(), requestDto.getReportId(), dbName);
             BadData badEntity = badDataRepository.findByUserIdAndReportId(requestDto.getUserId(), requestDto.getReportId());
 
             int good = chartReportRepository.getReportById(reportId).getGood();
@@ -179,14 +201,14 @@ public class PostService {
                 // 둘 다 눌러진 경우는 없을테지만 어케처리할지 고민
                 return new GoodOrBadDataResponseDto(0L, 0L);
             }
-        }else {
+        } else {
             Long boardId = requestDto.getReportId();
-            GoodData goodEntity = goodDataRepository.findByUserIdAndReportIdAndDbName(requestDto.getUserId(), requestDto.getReportId(),dbName);
+            GoodData goodEntity = goodDataRepository.findByUserIdAndReportIdAndDbName(requestDto.getUserId(), requestDto.getReportId(), dbName);
 
-            int good = freeBoardRepository.getFreeBoardById(boardId).getGood();
+            int good = bulletinBoardRepository.getBulletinBoardById(boardId).getGood();
 
             if (goodEntity == null) {
-                freeBoardRepository.updateGoodById(boardId, good + 1);
+                bulletinBoardRepository.updateGoodById(boardId, good + 1);
                 GoodData res = GoodData.builder()
                         .userId(requestDto.getUserId())
                         .reportId(boardId)
@@ -195,7 +217,7 @@ public class PostService {
                 goodDataRepository.save(res);
                 return new GoodOrBadDataResponseDto(res.getUserId(), res.getReportId());
             } else {
-                freeBoardRepository.updateGoodById(boardId, good - 1);
+                bulletinBoardRepository.updateGoodById(boardId, good - 1);
                 goodDataRepository.deleteById(goodEntity.getId());
 
                 return new GoodOrBadDataResponseDto(0L, 0L);
@@ -243,7 +265,7 @@ public class PostService {
     // 좋아요 or 싫어요 눌러져있는지 체크
     @Transactional(readOnly = true)
     public Map<String, Boolean> pressedCheck(Long userId, Long reportId, String dbName) {
-        boolean good = goodDataRepository.existsByUserIdAndReportIdAndDbName(userId, reportId,dbName);
+        boolean good = goodDataRepository.existsByUserIdAndReportIdAndDbName(userId, reportId, dbName);
         boolean bad = badDataRepository.existsByUserIdAndReportId(userId, reportId);
 
         Map<String, Boolean> result = new HashMap<>();
@@ -253,15 +275,15 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public boolean freeBoardPressedCheck(Long userId, Long boardId, String dbName) {
+    public boolean bulletinBoardPressedCheck(Long userId, Long boardId, String dbName) {
         return goodDataRepository.existsByUserIdAndReportIdAndDbName(userId, boardId, dbName);
 
     }
 
     // 조회수 up
     @Transactional
-    public String updateIncreaseViewsById(String dbName,Long id) {
-        if(dbName.equals("chart")){
+    public String updateIncreaseViewsById(String dbName, Long id) {
+        if (dbName.equals("chart")) {
             int views = chartReportRepository.getReportById(id).getViews();
             int value = chartReportRepository.updateViewsById(id, views + 1);
 
@@ -270,9 +292,9 @@ public class PostService {
             } else {
                 return "up failed!";
             }
-        }else {
-            int views = freeBoardRepository.getFreeBoardById(id).getViews();
-            int value = freeBoardRepository.updateViewsById(id, views + 1);
+        } else {
+            int views = bulletinBoardRepository.getBulletinBoardById(id).getViews();
+            int value = bulletinBoardRepository.updateViewsById(id, views + 1);
 
             if (value == 1) {
                 return "up success!";
@@ -312,22 +334,51 @@ public class PostService {
         }
     }
 
+    //freeboard 저장
     @Transactional
-    public Long saveFreeBoard(FreeBoardSaveRequestDto requestDto) {
-        return freeBoardRepository.save(requestDto.toEntity()).getId();
+    public Long saveBulletinBoard(BulletinBoardSaveRequestDto requestDto) {
+        return bulletinBoardRepository.save(requestDto.toEntity()).getId();
     }
 
+    //freeboard 전체 리스트 조회
     @Transactional(readOnly = true)
-    public List<FreeBoardReponseDto> getFreeBoardFindAll(String sorted) {
-        return freeBoardRepository.findAll(Sort.by(Sort.Direction.DESC, sorted)).stream()
-                .map(FreeBoardReponseDto::new)
+    public List<BulletinBoardReponseDto> getBulletinBoardFindAll(String sorted) {
+        return bulletinBoardRepository.findAll(Sort.by(Sort.Direction.DESC, sorted)).stream()
+                .map((c) -> new BulletinBoardReponseDto(c, kakaoUserRepository.getKakaoById(c.getUserId()).getNickname()))
                 .collect(Collectors.toList());
     }
 
+    //freeboard id로 조회
     @Transactional(readOnly = true)
-    public FreeBoardReponseDto getFreeBoardFindById(Long id) {
-        return new FreeBoardReponseDto(freeBoardRepository.getFreeBoardById(id));
+    public BulletinBoardReponseDto getBulletinBoardFindById(Long id) {
+        BulletinBoard entity = bulletinBoardRepository.getBulletinBoardById(id);
+        return new BulletinBoardReponseDto(entity, kakaoUserRepository.getKakaoById(entity.getUserId()).getNickname());
     }
+
+    // freeboard 지우기
+    @Transactional
+    public String deleteBulletinByUserId(Long boardId, Long userId) {
+        BulletinBoard entity = bulletinBoardRepository.findById(boardId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시물이 없습니다. id : " + boardId));
+        KakaoUser user = kakaoUserRepository.getOne(userId);
+        if (entity.getUserId().equals(userId)) {
+            bulletinBoardRepository.deleteById(boardId);
+            return "delete success";
+        } else {
+            return "delete failed";
+        }
+    }
+
+    @Transactional
+    public String updateBulletinBoard(Long id, String title, String content) {
+        int value = bulletinBoardRepository.updateBulletinBoardById(id, title, content);
+        if (value == 1) {
+            return "update success";
+        } else {
+            return "update failed";
+        }
+    }
+
 }
 
 
