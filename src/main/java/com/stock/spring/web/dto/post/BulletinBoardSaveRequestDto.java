@@ -8,20 +8,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class FreeBoardSaveRequestDto {
-    private String username;
+    private Long userId;
     private String title;
     private String content;
 
     @Builder
-    public FreeBoardSaveRequestDto(String username, String title, String content) {
-        this.username = username;
+    public FreeBoardSaveRequestDto(Long userId, String title, String content) {
+        this.userId = userId;
         this.title = title;
         this.content = content;
 
     }
     public FreeBoard toEntity() {
         return FreeBoard.builder()
-                .username(username)
+                .userId(userId)
                 .content(content)
                 .title(title)
                 .good(0)

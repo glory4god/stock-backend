@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 
 @Getter
 public class FreeBoardReponseDto {
+
     private Long id;
     private String username;
     private String title;
@@ -16,9 +17,9 @@ public class FreeBoardReponseDto {
     private int good;
     private int views;
 
-    public FreeBoardReponseDto(FreeBoard entity) {
+    public FreeBoardReponseDto(FreeBoard entity, String nickname) {
         this.id = entity.getId();
-        this.username = entity.getUsername();
+        this.username = nickname;
         this.title = entity.getTitle();
         this.content = entity.getContent();
         this.good = entity.getGood();

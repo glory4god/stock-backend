@@ -17,6 +17,9 @@ public interface FreeBoardRepository extends JpaRepository<FreeBoard, Long> {
     @Query("update FreeBoard f set f.views=?2 where f.id=?1")
     int updateViewsById(Long id, int views);
 
+    @Modifying
+    @Query("update FreeBoard f set f.title=?2, f.content=?3 WHERE f.id=?1")
+    int updateFreeBoardById(Long id, String title, String content);
 }
 
 

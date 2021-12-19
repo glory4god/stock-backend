@@ -17,8 +17,8 @@ public class FreeBoard extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username", nullable = false)
-    private String username;
+    @Column(name = "userId", nullable = false)
+    private Long userId;
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -33,8 +33,8 @@ public class FreeBoard extends BaseTimeEntity {
     private int views;
 
     @Builder
-    public FreeBoard(String username, String title, String content, int good, int views) {
-        this.username = username;
+    public FreeBoard(Long userId, String title, String content, int good, int views) {
+        this.userId = userId;
         this.title = title;
         this.content = content;
         this.good = good;
